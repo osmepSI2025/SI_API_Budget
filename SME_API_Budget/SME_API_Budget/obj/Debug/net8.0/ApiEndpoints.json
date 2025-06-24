@@ -1,0 +1,419 @@
+[
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ApiInformationController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "apiModels",
+        "Type": "SME_API_Budget.Models.MapiInformationModels",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ApiInformationController",
+    "Method": "Create",
+    "RelativePath": "api/SYS-BUDGET",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "service",
+        "Type": "SME_API_Budget.Entities.MapiInformation",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ApiInformationController",
+    "Method": "GetById",
+    "RelativePath": "api/SYS-BUDGET/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ApiInformationController",
+    "Method": "Update",
+    "RelativePath": "api/SYS-BUDGET/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "service",
+        "Type": "SME_API_Budget.Entities.MapiInformation",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ApiInformationController",
+    "Method": "Delete",
+    "RelativePath": "api/SYS-BUDGET/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.RecPRsController",
+    "Method": "RecPRcSendData",
+    "RelativePath": "api/SYS-BUDGET/Rec_P_Rs/{year}/{projectCode}/{ref_code}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "projectCode",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "ref_code",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "Senddata",
+        "Type": "SME_API_Budget.Models.RecPRSubDataModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPActivityController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_Activity/{year}/{projectCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "projectCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPAreaController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_Area/{year}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPAreaController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_Area/{year}/{projectCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "projectCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPExpectedController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_Expected/{year}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPExpectedController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_Expected/{year}/{projectCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "projectCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPOutcomeController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_Outcome/{year}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPOutcomeController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_Outcome/{year}/{projectCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "projectCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPOutputController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_output/{year}/{projectCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "projectCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPPayController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_Pay/{year}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPPayController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_Pay/{year}/{projectCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "projectCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPPlanBdgController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_Plan_Bdg/{year}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPPlanBdgController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_Plan_Bdg/{year}/{projectCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "projectCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPRiskController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_Risk/{year}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnPRiskController",
+    "Method": "GetAll",
+    "RelativePath": "api/SYS-BUDGET/Return_P_Risk/{year}/{projectCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "projectCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnProjectController",
+    "Method": "GetProjectsByYear",
+    "RelativePath": "api/SYS-BUDGET/Return_Project/{year}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SME_API_Budget.Controllers.ReturnProjectController",
+    "Method": "GetProjects",
+    "RelativePath": "api/SYS-BUDGET/Return_Project/Return_Project/{year}/{projectCode}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "year",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "projectCode",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

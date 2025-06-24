@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "wLEjj3XlEGyJDGksmYQyI+v06bNvBYvexaUFDO4OVNg=",
+  "Source": "SME_API_Budget",
+  "BasePath": "_content/SME_API_Budget",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

@@ -1,0 +1,820 @@
+{
+  "x-generator": "NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v10.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "API SME Budget",
+    "description": "API documentation using Swagger 2.0",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/SYS-BUDGET": {
+      "get": {
+        "tags": [
+          "ApiInformation"
+        ],
+        "operationId": "ApiInformation_GetAll",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "apiModels",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MapiInformationModels"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ApiInformation"
+        ],
+        "operationId": "ApiInformation_Create",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "service",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MapiInformation"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/{id}": {
+      "get": {
+        "tags": [
+          "ApiInformation"
+        ],
+        "operationId": "ApiInformation_GetById",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ApiInformation"
+        ],
+        "operationId": "ApiInformation_Update",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          },
+          {
+            "name": "service",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MapiInformation"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ApiInformation"
+        ],
+        "operationId": "ApiInformation_Delete",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Rec_P_Rs/{year}/{projectCode}/{ref_code}": {
+      "post": {
+        "tags": [
+          "RecPRs"
+        ],
+        "operationId": "RecPRs_RecPRcSendData",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "ref_code",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "name": "Senddata",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RecPRSubDataModel"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_Activity/{year}/{projectCode}": {
+      "get": {
+        "tags": [
+          "ReturnPActivity"
+        ],
+        "operationId": "ReturnPActivity_GetAll",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_Area/{year}": {
+      "get": {
+        "tags": [
+          "ReturnPArea"
+        ],
+        "operationId": "ReturnPArea_GetAll",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_Area/{year}/{projectCode}": {
+      "get": {
+        "tags": [
+          "ReturnPArea"
+        ],
+        "operationId": "ReturnPArea_GetAll2",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_Expected/{year}": {
+      "get": {
+        "tags": [
+          "ReturnPExpected"
+        ],
+        "operationId": "ReturnPExpected_GetAll",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_Expected/{year}/{projectCode}": {
+      "get": {
+        "tags": [
+          "ReturnPExpected"
+        ],
+        "operationId": "ReturnPExpected_GetAll2",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_Outcome/{year}": {
+      "get": {
+        "tags": [
+          "ReturnPOutcome"
+        ],
+        "operationId": "ReturnPOutcome_GetAll",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_Outcome/{year}/{projectCode}": {
+      "get": {
+        "tags": [
+          "ReturnPOutcome"
+        ],
+        "operationId": "ReturnPOutcome_GetAll2",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_output/{year}/{projectCode}": {
+      "get": {
+        "tags": [
+          "ReturnPOutput"
+        ],
+        "operationId": "ReturnPOutput_GetAll",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_Pay/{year}": {
+      "get": {
+        "tags": [
+          "ReturnPPay"
+        ],
+        "operationId": "ReturnPPay_GetAll",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_Pay/{year}/{projectCode}": {
+      "get": {
+        "tags": [
+          "ReturnPPay"
+        ],
+        "operationId": "ReturnPPay_GetAll2",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_Plan_Bdg/{year}": {
+      "get": {
+        "tags": [
+          "ReturnPPlanBdg"
+        ],
+        "operationId": "ReturnPPlanBdg_GetAll",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_Plan_Bdg/{year}/{projectCode}": {
+      "get": {
+        "tags": [
+          "ReturnPPlanBdg"
+        ],
+        "operationId": "ReturnPPlanBdg_GetAll2",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_Risk/{year}": {
+      "get": {
+        "tags": [
+          "ReturnPRisk"
+        ],
+        "operationId": "ReturnPRisk_GetAll",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_P_Risk/{year}/{projectCode}": {
+      "get": {
+        "tags": [
+          "ReturnPRisk"
+        ],
+        "operationId": "ReturnPRisk_GetAll2",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_Project/Return_Project/{year}/{projectCode}": {
+      "get": {
+        "tags": [
+          "ReturnProject"
+        ],
+        "operationId": "ReturnProject_GetProjects",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "projectCode",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/SYS-BUDGET/Return_Project/{year}": {
+      "get": {
+        "tags": [
+          "ReturnProject"
+        ],
+        "operationId": "ReturnProject_GetProjectsByYear",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "year",
+            "in": "path",
+            "required": true,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "MapiInformationModels": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "serviceNameTh": {
+          "type": "string"
+        },
+        "serviceNameCode": {
+          "type": "string"
+        },
+        "urlproduction": {
+          "type": "string"
+        },
+        "urldevelopment": {
+          "type": "string"
+        },
+        "authorizationType": {
+          "type": "string"
+        },
+        "contentType": {
+          "type": "string"
+        },
+        "methodType": {
+          "type": "string"
+        },
+        "createDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updateDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "apiKey": {
+          "type": "string"
+        }
+      }
+    },
+    "MapiInformation": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "serviceNameTh": {
+          "type": "string"
+        },
+        "serviceNameCode": {
+          "type": "string"
+        },
+        "urlproduction": {
+          "type": "string"
+        },
+        "urldevelopment": {
+          "type": "string"
+        },
+        "authorizationType": {
+          "type": "string"
+        },
+        "contentType": {
+          "type": "string"
+        },
+        "methodType": {
+          "type": "string"
+        },
+        "createDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updateDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "apiKey": {
+          "type": "string"
+        },
+        "cronExpression": {
+          "type": "string",
+          "format": "duration"
+        }
+      }
+    },
+    "RecPRSubDataModel": {
+      "type": "object",
+      "required": [
+        "DATA_P_S1",
+        "DATA_P_S2"
+      ],
+      "properties": {
+        "DATA_P_S1": {
+          "type": "string"
+        },
+        "DATA_P_S2": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
