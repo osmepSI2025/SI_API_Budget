@@ -1,6 +1,7 @@
 ﻿using SME_API_Budget.Entities;
 using SME_API_Budget.Models;
 using SME_API_Budget.Repository;
+using System.Globalization;
 
 namespace SME_API_Budget.Services
 {
@@ -9,11 +10,14 @@ namespace SME_API_Budget.Services
         private readonly IReturnPOutcomeRepository _repository;
         private readonly IApiInformationRepository _repositoryApi;
         private readonly ICallAPIService _serviceApi;
-        public ReturnPOutcomeService(IReturnPOutcomeRepository repository, IApiInformationRepository repositoryApi, ICallAPIService serviceApi)
+        private readonly IReturnProjectService _returnProjectService;
+        public ReturnPOutcomeService(IReturnPOutcomeRepository repository, IApiInformationRepository repositoryApi,
+            ICallAPIService serviceApi, IReturnProjectService returnProjectService)
         {
             _repository = repository;
             _repositoryApi = repositoryApi;
             _serviceApi = serviceApi;
+            _returnProjectService = returnProjectService;
         }
 
         //public async Task<Dictionary<int, ReturnPOutcomeModels>> GetAllAsync(string? year, string? projectcode)
@@ -119,5 +123,29 @@ namespace SME_API_Budget.Services
 
         public async Task DeleteAsync(int id)
             => await _repository.DeleteAsync(id);
+
+
+        public async Task<int> BatchReturn_Outcome()
+        {
+            var thaiCulture = new CultureInfo("th-TH");
+            var buddhistCalendar = new ThaiBuddhistCalendar();
+
+            var currentYear = buddhistCalendar.GetYear(DateTime.Now);
+
+            var years = Enumerable.Range(currentYear - 4, 5).Reverse();
+
+            foreach (var year in years)
+            {
+                var Lprojects = await _returnProjectService.GetAllAsync(year.ToString(), "");
+
+                foreach (var item in Lprojects)
+                {
+                    var result = await GetAllAsync(year.ToString(), item.Value.DATA_P11);
+                }
+
+
+            }
+            return 1; // Placeholder for delete operation, implement as needed
+        }
     }
 }

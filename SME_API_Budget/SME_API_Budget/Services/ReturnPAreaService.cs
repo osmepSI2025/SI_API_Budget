@@ -2,9 +2,6 @@
 using SME_API_Budget.Models;
 using SME_API_Budget.Repository;
 using System.Globalization;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Text.Json;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace SME_API_Budget.Services
 {
@@ -13,129 +10,17 @@ namespace SME_API_Budget.Services
         private readonly IReturnPAreaRepository _repository;
         private readonly ICallAPIService _serviceApi;
         private readonly IApiInformationRepository _repositoryApi;
-        public ReturnPAreaService(IReturnPAreaRepository repository, ICallAPIService serviceApi, IApiInformationRepository repositoryApi)
+        private readonly IReturnProjectService _returnProjectService;
+
+        public ReturnPAreaService(IReturnPAreaRepository repository, ICallAPIService serviceApi,
+            IApiInformationRepository repositoryApi, IReturnProjectService returnProjectService)
         {
             _repository = repository;
             _serviceApi = serviceApi;
             _repositoryApi = repositoryApi;
+            _returnProjectService = returnProjectService;
         }
 
-        //public async Task<ApiResponseReturnArea> GetAllAsync(string year, string projectcode)
-        //{
-
-        //    ApiResponseReturnArea xapiResponseReturnAreaModels = new ApiResponseReturnArea();
-        //    try
-        //    {
-        //        var projects = await _repository.GetAllAsync(year, projectcode);
-
-
-        //        if (projects!=null)
-        //        {
-        //            xapiResponseReturnAreaModels.StatusCode = 200;
-        //            xapiResponseReturnAreaModels.Message = "OK";
-        //            xapiResponseReturnAreaModels.Data = new APIResponseDataReturnPAreaModels
-        //            {
-        //                DATA_P1 = projects?.DATA_P1
-        //            };
-        //            return xapiResponseReturnAreaModels;
-        //        }
-
-        //        var LApi = await _repositoryApi.GetAllAsync(new MapiInformationModels { ServiceNameCode = "Return_P_Area" });
-        //        if (!LApi.Any())
-        //        {
-        //            xapiResponseReturnAreaModels.StatusCode = 200;
-        //            xapiResponseReturnAreaModels.Message = "OK";
-        //            xapiResponseReturnAreaModels.Data = new APIResponseDataReturnPAreaModels
-        //            {
-        //                DATA_P1 = projects?.DATA_P1
-        //            };
-        //            return xapiResponseReturnAreaModels;
-        //        }
-
-        //        var apiParam = LApi.Select(x => new MapiInformationModels
-        //        {
-        //            ServiceNameCode = x.ServiceNameCode,
-        //            ApiKey = x.ApiKey,
-        //            AuthorizationType = x.AuthorizationType,
-        //            ContentType = x.ContentType,
-        //            CreateDate = x.CreateDate,
-        //            Id = x.Id,
-        //            MethodType = x.MethodType,
-        //            ServiceNameTh = x.ServiceNameTh,
-        //            Urldevelopment = x.Urldevelopment,
-        //            Urlproduction = x.Urlproduction,
-        //            Username = x.Username,
-        //            Password = x.Password,
-        //            UpdateDate = x.UpdateDate
-        //        }).First(); // ดึงตัวแรกของ List
-        //        var resultApi = await _serviceApi.GetDataApiAsync(apiParam, year, projectcode);
-
-        //        if (resultApi.Data == null || resultApi.Data.Count == 0)
-        //        {
-        //            xapiResponseReturnAreaModels.StatusCode = 200;
-        //            xapiResponseReturnAreaModels.Message = "OK";
-        //            xapiResponseReturnAreaModels.Data = new APIResponseDataReturnPAreaModels
-        //            {
-        //                DATA_P1 = projects?.DATA_P1
-        //            };
-        //            return xapiResponseReturnAreaModels;
-        //        }
-
-
-        //        List<ReturnPArea> newProjects = new();
-
-        //        foreach (var item in resultApi.Data)
-        //        {
-        //            DateTime.TryParseExact(item.Value.DATA_P4, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dataP4);
-        //            DateTime.TryParseExact(item.Value.DATA_P5, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dataP5);
-        //            decimal.TryParse(item.Value.DATA_P12, out decimal dataP12);
-        //            decimal.TryParse(item.Value.DATA_P13, out decimal dataP13);
-
-        //            newProjects.Add(new ReturnPArea
-        //            {
-
-        //                DataP1 = item.Value.DATA_P1,
-
-        //                CreateDate = DateTime.Now,
-        //                UpdateDate = DateTime.Now,
-        //                YearBdg = year,
-        //                ProjectCode = projectcode,
-        //            });
-        //        }
-
-        //        if (newProjects.Count > 0)
-        //            await _repository.AddRangeAsync(newProjects);
-
-        //        // ✅ เรียกข้อมูลจาก DB หลัง Insert
-        //        projects = await _repository.GetAllAsync(year, projectcode);
-
-        //        if (projects != null)
-        //        {
-        //            xapiResponseReturnAreaModels.StatusCode = 200;
-        //            xapiResponseReturnAreaModels.Message = "OK";
-        //            xapiResponseReturnAreaModels.Data = new APIResponseDataReturnPAreaModels
-        //            {
-        //                DATA_P1 = projects?.DATA_P1
-        //            };
-        //            return xapiResponseReturnAreaModels;
-
-        //        }
-        //        else 
-        //        {
-        //            xapiResponseReturnAreaModels.StatusCode = 200;
-        //            xapiResponseReturnAreaModels.Message = "OK";
-
-        //            return xapiResponseReturnAreaModels;
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("Error: " + ex.Message);
-        //        return null;
-        //    }
-
-        //}
         public async Task<APIResponseDataReturnPAreaModels> GetAllAsync(string year, string projectcode)
         {
             ApiResponseReturnArea xapiResponseReturnAreaModels = new();
@@ -191,7 +76,7 @@ namespace SME_API_Budget.Services
                 {
                     return null;
                 }
-                else 
+                else
                 {
                     List<ReturnPArea> newProjects = new();
                     newProjects.Add(new ReturnPArea
@@ -233,5 +118,28 @@ namespace SME_API_Budget.Services
 
         public async Task DeleteAsync(int id)
             => await _repository.DeleteAsync(id);
+
+        public async Task<int> BatchP_Area()
+        {
+            var thaiCulture = new CultureInfo("th-TH");
+            var buddhistCalendar = new ThaiBuddhistCalendar();
+
+            var currentYear = buddhistCalendar.GetYear(DateTime.Now);
+
+            var years = Enumerable.Range(currentYear - 4, 5).Reverse();
+
+            foreach (var year in years)
+            {
+                var Lprojects = await _returnProjectService.GetAllAsync(year.ToString(),"");
+
+                foreach (var item in Lprojects)
+                {               
+                    var result = await GetAllAsync(year.ToString(), item.Value.DATA_P11);                 
+                }
+              
+
+            }
+            return 1; // Placeholder for delete operation, implement as needed
+        }
     }
 }

@@ -3,6 +3,7 @@ using SME_API_Budget.Entities;
 using SME_API_Budget.Models;
 using SME_API_Budget.Repository;
 using SME_API_SMEBudget.Entities;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -14,14 +15,17 @@ namespace SME_API_Budget.Services
         private readonly IApiInformationRepository _repositoryApi;
         private readonly ICallAPIService _serviceApi;
         private readonly IReturnPActivityRepository _repository;
+        private readonly IReturnProjectService _returnProjectService;
 
-        public ReturnPActivityService(SMEBudgetDBContext context, IApiInformationRepository repositoryApi, ICallAPIService serviceApi, IReturnPActivityRepository repository)
+
+        public ReturnPActivityService(SMEBudgetDBContext context, IApiInformationRepository repositoryApi, ICallAPIService serviceApi, IReturnPActivityRepository repository, IReturnProjectService returnProjectService)
         {
             _context = context;
 
             _repositoryApi = repositoryApi;
             _serviceApi = serviceApi;
             _repository = repository;
+            _returnProjectService = returnProjectService;
         }
 
         public async Task<IEnumerable<ReturnPActivity>> GetAllAsync(string year, string projectcode)
@@ -158,6 +162,29 @@ namespace SME_API_Budget.Services
                 _context.ReturnPActivities.Remove(activity);
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<int> BatchReturn_Activity()
+        {
+            var thaiCulture = new CultureInfo("th-TH");
+            var buddhistCalendar = new ThaiBuddhistCalendar();
+
+            var currentYear = buddhistCalendar.GetYear(DateTime.Now);
+
+            var years = Enumerable.Range(currentYear - 4, 5).Reverse();
+
+            foreach (var year in years)
+            {
+                var Lprojects = await _returnProjectService.GetAllAsync(year.ToString(), "");
+
+                foreach (var item in Lprojects)
+                {
+                    var result = await GetAllAsync(year.ToString(), item.Value.DATA_P11);
+                }
+
+
+            }
+            return 1; // Placeholder for delete operation, implement as needed
         }
     }
 

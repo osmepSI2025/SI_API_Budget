@@ -11,5 +11,6 @@ namespace SME_API_Budget.Services
         Task AddAsync(ReturnPArea entity);
         Task UpdateAsync(ReturnPArea entity);
         Task DeleteAsync(int id);
+        Task<int> BatchP_Area();
     }
 }

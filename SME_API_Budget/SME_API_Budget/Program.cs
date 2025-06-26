@@ -62,7 +62,7 @@ namespace SME_API_Budget
             builder.Services.AddHttpClient<CallAPIService>();
             builder.Services.AddSingleton<CallAPIService>();
 
-
+            builder.Services.AddHostedService<ScheduledJobService>();
             // Cron job
             //builder.Services.AddHostedService<CronBackgroundService>();
             //builder.Services.AddScoped<IJobService, JobService>();

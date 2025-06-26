@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SME_API_Budget.Entities;
 using SME_API_Budget.Services;
 
 namespace SME_API_Budget.Controllers
@@ -37,6 +36,23 @@ namespace SME_API_Budget.Controllers
 
         }
 
+        [HttpGet("Return_P_Area-Batch")]
+        public async Task<IActionResult> GetP_Area()
+        {
+            try
+            {
+                var projects = await _service.BatchP_Area();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    code = 500,
+                    message = ex.Message
+                });
+            }
 
+        }
     }
 }
