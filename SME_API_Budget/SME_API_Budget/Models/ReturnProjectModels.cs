@@ -30,9 +30,9 @@ public partial class ReturnProjectModels
     [JsonPropertyName("DATA_P11")]
     public string? DATA_P11 { get; set; }
     [JsonPropertyName("DATA_P12")]
-    public decimal? DATA_P12 { get; set; }
+    public string? DATA_P12 { get; set; }
     [JsonPropertyName("DATA_P13")]
-    public decimal? DATA_P13 { get; set; }
+    public string? DATA_P13 { get; set; }
     
     //public string? YearBdg { get; set; }
 
@@ -75,9 +75,9 @@ public class APIResponseReturnProjectModels
     [JsonPropertyName("DATA_P11")]
     public string? DATA_P11 { get; set; }
     [JsonPropertyName("DATA_P12")]
-    public decimal? DATA_P12 { get; set; }
+    public string? DATA_P12 { get; set; }
     [JsonPropertyName("DATA_P13")]
-    public decimal? DATA_P13 { get; set; }
+    public string? DATA_P13 { get; set; }
 }
 public class ApiResponseReturnProjectModels
 {

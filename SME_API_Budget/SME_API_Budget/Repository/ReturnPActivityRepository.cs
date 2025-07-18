@@ -45,13 +45,44 @@ namespace SME_API_Budget.Repository
         }
         public async Task AddRangeAsync(List<ReturnPActivity> projects)
         {
-            await _context.ReturnPActivities.AddRangeAsync(projects);
-            await _context.SaveChangesAsync();
+            try {
+                await _context.ReturnPActivities.AddRangeAsync(projects);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                // Log inner exception details for EF Core update errors
+                Console.WriteLine("DbUpdateException: " + dbEx.Message);
+                if (dbEx.InnerException != null)
+                    Console.WriteLine("InnerException: " + dbEx.InnerException.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex.ToString());
+                throw;
+            }
+
         }
         public async Task AddRangeAsyncSub(List<ReturnPActivitySub> projects)
         {
+            try { 
             await _context.ReturnPActivitySubs.AddRangeAsync(projects);
             await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                // Log inner exception details for EF Core update errors
+                Console.WriteLine("DbUpdateException: " + dbEx.Message);
+                if (dbEx.InnerException != null)
+                    Console.WriteLine("InnerException: " + dbEx.InnerException.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex.ToString());
+                throw;
+            }
         }
         public async Task<ReturnPActivity> GetByIdAsync(int id)
             => await _context.ReturnPActivities.FindAsync(id);

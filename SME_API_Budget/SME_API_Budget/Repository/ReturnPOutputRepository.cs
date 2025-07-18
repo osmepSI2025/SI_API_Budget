@@ -34,7 +34,7 @@ namespace SME_API_Budget.Repository
                         DATA_P1 = u.DataP1,
                         DATA_P2 = u.DataP2,
                         DATA_P3 = u.DataP3,
-                        DATA_P4 = u.DataP4,
+                        DATA_P4 = u.DataP4.ToString()??null,
                         DATA_P5 = u.DataP5
                     }
                 })

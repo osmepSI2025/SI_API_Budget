@@ -40,7 +40,7 @@ public class APIResponseDataReturnPOutputModels
     public string? DATA_P3 { get; set; }
 
     [JsonPropertyName("DATA_P4")]
-    public decimal? DATA_P4 { get; set; }
+    public string? DATA_P4 { get; set; }
 
     [JsonPropertyName("DATA_P5")]
     public string? DATA_P5 { get; set; }

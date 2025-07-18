@@ -61,6 +61,28 @@ namespace SME_API_Budget.Controllers
             }
 
         }
-        
+
+        [HttpGet("Batch-ReturnProject")]
+        public async Task<IActionResult> Batch_ReturnProject()
+        {
+            try
+            {
+                var projects = await _service.BatchAllAsync("2567");
+
+
+                return Ok(projects);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    code = 500,
+                    message = ex.Message
+                });
+            }
+
+        }
+
     }
 }

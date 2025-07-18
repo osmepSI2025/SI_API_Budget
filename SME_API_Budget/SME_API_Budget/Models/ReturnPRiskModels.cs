@@ -47,7 +47,7 @@ public class APIResponseDataReturnPRiskModels
     [JsonPropertyName("DATA_P5")]
     public string? DATA_P5 { get; set; }
     [JsonPropertyName("REF_CODE")]
-    public int? RefCode { get; set; }
+    public string? RefCode { get; set; }
 }
 public class ApiResponseReturnPRiskModels
 {

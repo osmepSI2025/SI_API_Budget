@@ -33,13 +33,19 @@ namespace SME_API_Budget.Services
 
                 if (projects.Any())
                 {
-                    return projects.ToDictionary(p => p.Value.RefCode ?? p.Key, p => p.Value);
+                    return projects.ToDictionary(
+                        p => int.TryParse(p.Value.RefCode, out var refCodeInt) ? refCodeInt : p.Key,
+                        p => p.Value
+                    );
                 }
 
                 var LApi = await _repositoryApi.GetAllAsync(new MapiInformationModels { ServiceNameCode = "Return_P_Risk" });
                 if (!LApi.Any())
                 {
-                    return projects.ToDictionary(p => p.Value.RefCode ?? p.Key, p => p.Value);
+                    return projects.ToDictionary(
+                        p => int.TryParse(p.Value.RefCode, out var refCodeInt) ? refCodeInt : p.Key,
+                        p => p.Value
+                    );
                 }
 
                 var apiParam = LApi.Select(x => new MapiInformationModels
@@ -60,14 +66,20 @@ namespace SME_API_Budget.Services
                 }).First(); // ดึงตัวแรกของ List
                 if (apiParam == null)
                 {
-                    return projects.ToDictionary(p => p.Value.RefCode ?? p.Key, p => p.Value);
+                    return projects.ToDictionary(
+                        p => int.TryParse(p.Value.RefCode, out var refCodeInt) ? refCodeInt : p.Key,
+                        p => p.Value
+                    );
                 }
 
                 var resultApi = await _serviceApi.GetDataApiAsync_ReturnPRisk(apiParam, year, projectcode);
 
                 if (resultApi.Data == null || resultApi.Data.Count == 0)
                 {
-                    return projects.ToDictionary(p => p.Value.RefCode ?? p.Key, p => p.Value);
+                    return projects.ToDictionary(
+                        p => int.TryParse(p.Value.RefCode, out var refCodeInt) ? refCodeInt : p.Key,
+                        p => p.Value
+                    );
                 }
 
                 var existingKeyIds = (await _repository.GetAllKeyIdsAsync()).ToHashSet();
@@ -87,8 +99,8 @@ namespace SME_API_Budget.Services
                         DataP2 = item.Value.DATA_P2,
                         DataP3 = item.Value.DATA_P3,
                         DataP4 = item.Value.DATA_P4,
-                        DataP5 = item.Value.DATA_P5,
-                       RefCode = Convert.ToInt16( item.Value.RefCode),
+                        DataP5 = double.TryParse(item.Value.DATA_P5, out var dataP5Value) ? dataP5Value : (double?)null,
+                        RefCode = item.Value.RefCode,
 
                         CreateDate = DateTime.Now,
                         UpdateDate = DateTime.Now,
@@ -102,7 +114,10 @@ namespace SME_API_Budget.Services
 
                 // ✅ เรียกข้อมูลจาก DB หลัง Insert
                 projects = await _repository.GetAllAsync(year, projectcode);
-                return projects.ToDictionary(p => p.Value.RefCode ?? p.Key, p => p.Value);
+                return projects.ToDictionary(
+                    p => int.TryParse(p.Value.RefCode, out var refCodeInt) ? refCodeInt : p.Key,
+                    p => p.Value
+                );
             }
             catch (Exception ex)
             {

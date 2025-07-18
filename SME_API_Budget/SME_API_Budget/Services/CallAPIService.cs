@@ -116,16 +116,30 @@ namespace SME_API_Budget.Services
             {
                 using var request = new HttpRequestMessage(HttpMethod.Get, $"{apiUrl}");
 
-                // ✅ ใส่ API Key ถ้ามี
-                if (!string.IsNullOrEmpty(apiModels.ApiKey))
-                    request.Headers.Add("X-Api-Key", apiModels.ApiKey);
-
-                // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
-                if (!string.IsNullOrEmpty(apiModels.Username) && !string.IsNullOrEmpty(apiModels.Password))
+                switch (apiModels.AuthorizationType) 
                 {
-                    var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                    case "Bearer":
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiModels.ApiKey);
+                        break;
+
+                        case "Basic":
+                        // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
+                        if (!string.IsNullOrEmpty(apiModels.Password))
+                        {
+                            var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                        }
+                        break;
+                        case "ApiKey":
+                        // ✅ ใส่ API Key ถ้ามี
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Add("X-Api-Key", apiModels.ApiKey);
+
+                        break;
                 }
+
+
 
                 // ✅ Call API
                 using var response = await _httpClient.SendAsync(request);
@@ -181,13 +195,27 @@ namespace SME_API_Budget.Services
             {
                 using var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
 
-                if (!string.IsNullOrEmpty(apiModels.ApiKey))
-                    request.Headers.Add("X-Api-Key", apiModels.ApiKey);
-
-                if (!string.IsNullOrEmpty(apiModels.Username) && !string.IsNullOrEmpty(apiModels.Password))
+                switch (apiModels.AuthorizationType)
                 {
-                    var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                    case "Bearer":
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiModels.ApiKey);
+                        break;
+
+                    case "Basic":
+                        // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
+                        if (!string.IsNullOrEmpty(apiModels.Password))
+                        {
+                            var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                        }
+                        break;
+                    case "ApiKey":
+                        // ✅ ใส่ API Key ถ้ามี
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Add("X-Api-Key", apiModels.ApiKey);
+
+                        break;
                 }
 
                 using var response = await _httpClient.SendAsync(request);
@@ -246,14 +274,29 @@ namespace SME_API_Budget.Services
             {
                 using var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
 
-                if (!string.IsNullOrEmpty(apiModels.ApiKey))
-                    request.Headers.Add("X-Api-Key", apiModels.ApiKey);
-
-                if (!string.IsNullOrEmpty(apiModels.Username) && !string.IsNullOrEmpty(apiModels.Password))
+                switch (apiModels.AuthorizationType)
                 {
-                    var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                    case "Bearer":
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiModels.ApiKey);
+                        break;
+
+                    case "Basic":
+                        // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
+                        if (!string.IsNullOrEmpty(apiModels.Password))
+                        {
+                            var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                        }
+                        break;
+                    case "ApiKey":
+                        // ✅ ใส่ API Key ถ้ามี
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Add("X-Api-Key", apiModels.ApiKey);
+
+                        break;
                 }
+
 
                 using var response = await _httpClient.SendAsync(request);
                 string responseData = await response.Content.ReadAsStringAsync();
@@ -317,14 +360,29 @@ namespace SME_API_Budget.Services
             {
                 using var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
 
-                if (!string.IsNullOrEmpty(apiModels.ApiKey))
-                    request.Headers.Add("X-Api-Key", apiModels.ApiKey);
-
-                if (!string.IsNullOrEmpty(apiModels.Username) && !string.IsNullOrEmpty(apiModels.Password))
+                switch (apiModels.AuthorizationType)
                 {
-                    var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                    case "Bearer":
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiModels.ApiKey);
+                        break;
+
+                    case "Basic":
+                        // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
+                        if (!string.IsNullOrEmpty(apiModels.Password))
+                        {
+                            var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                        }
+                        break;
+                    case "ApiKey":
+                        // ✅ ใส่ API Key ถ้ามี
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Add("X-Api-Key", apiModels.ApiKey);
+
+                        break;
                 }
+
 
                 using var response = await _httpClient.SendAsync(request);
                 string responseData = await response.Content.ReadAsStringAsync();
@@ -387,16 +445,29 @@ namespace SME_API_Budget.Services
             {
                 using var request = new HttpRequestMessage(HttpMethod.Get, $"{apiUrl}");
 
-                // ✅ ใส่ API Key ถ้ามี
-                if (!string.IsNullOrEmpty(apiModels.ApiKey))
-                    request.Headers.Add("X-Api-Key", apiModels.ApiKey);
-
-                // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
-                if (!string.IsNullOrEmpty(apiModels.Username) && !string.IsNullOrEmpty(apiModels.Password))
+                switch (apiModels.AuthorizationType)
                 {
-                    var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                    case "Bearer":
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiModels.ApiKey);
+                        break;
+
+                    case "Basic":
+                        // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
+                        if (!string.IsNullOrEmpty(apiModels.Password))
+                        {
+                            var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                        }
+                        break;
+                    case "ApiKey":
+                        // ✅ ใส่ API Key ถ้ามี
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Add("X-Api-Key", apiModels.ApiKey);
+
+                        break;
                 }
+
 
                 // ✅ Call API
                 using var response = await _httpClient.SendAsync(request);
@@ -461,16 +532,29 @@ namespace SME_API_Budget.Services
             {
                 using var request = new HttpRequestMessage(HttpMethod.Get, $"{apiUrl}");
 
-                // ✅ ใส่ API Key ถ้ามี
-                if (!string.IsNullOrEmpty(apiModels.ApiKey))
-                    request.Headers.Add("X-Api-Key", apiModels.ApiKey);
-
-                // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
-                if (!string.IsNullOrEmpty(apiModels.Username) && !string.IsNullOrEmpty(apiModels.Password))
+                switch (apiModels.AuthorizationType)
                 {
-                    var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                    case "Bearer":
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiModels.ApiKey);
+                        break;
+
+                    case "Basic":
+                        // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
+                        if (!string.IsNullOrEmpty(apiModels.Password))
+                        {
+                            var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                        }
+                        break;
+                    case "ApiKey":
+                        // ✅ ใส่ API Key ถ้ามี
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Add("X-Api-Key", apiModels.ApiKey);
+
+                        break;
                 }
+
 
                 // ✅ Call API
                 using var response = await _httpClient.SendAsync(request);
@@ -534,14 +618,29 @@ namespace SME_API_Budget.Services
             {
                 using var request = new HttpRequestMessage(HttpMethod.Get, apiUrl);
 
-                if (!string.IsNullOrEmpty(apiModels.ApiKey))
-                    request.Headers.Add("X-Api-Key", apiModels.ApiKey);
-
-                if (!string.IsNullOrEmpty(apiModels.Username) && !string.IsNullOrEmpty(apiModels.Password))
+                switch (apiModels.AuthorizationType)
                 {
-                    var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                    case "Bearer":
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiModels.ApiKey);
+                        break;
+
+                    case "Basic":
+                        // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
+                        if (!string.IsNullOrEmpty(apiModels.Password))
+                        {
+                            var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                        }
+                        break;
+                    case "ApiKey":
+                        // ✅ ใส่ API Key ถ้ามี
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Add("X-Api-Key", apiModels.ApiKey);
+
+                        break;
                 }
+
 
                 using var response = await _httpClient.SendAsync(request);
                 string responseData = await response.Content.ReadAsStringAsync();
@@ -602,16 +701,29 @@ namespace SME_API_Budget.Services
             {
                 using var request = new HttpRequestMessage(HttpMethod.Get, $"{apiUrl}");
 
-                // ✅ ใส่ API Key ถ้ามี
-                if (!string.IsNullOrEmpty(apiModels.ApiKey))
-                    request.Headers.Add("X-Api-Key", apiModels.ApiKey);
-
-                // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
-                if (!string.IsNullOrEmpty(apiModels.Username) && !string.IsNullOrEmpty(apiModels.Password))
+                switch (apiModels.AuthorizationType)
                 {
-                    var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                    case "Bearer":
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiModels.ApiKey);
+                        break;
+
+                    case "Basic":
+                        // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
+                        if (!string.IsNullOrEmpty(apiModels.Password))
+                        {
+                            var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                        }
+                        break;
+                    case "ApiKey":
+                        // ✅ ใส่ API Key ถ้ามี
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Add("X-Api-Key", apiModels.ApiKey);
+
+                        break;
                 }
+
 
                 // ✅ Call API
 
@@ -669,17 +781,29 @@ namespace SME_API_Budget.Services
             try
             {
                 using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl);
-
-                // ✅ ใส่ API Key ถ้ามี
-                if (!string.IsNullOrEmpty(apiModels.ApiKey))
-                    request.Headers.Add("X-Api-Key", apiModels.ApiKey);
-
-                // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
-                if (!string.IsNullOrEmpty(apiModels.Username) && !string.IsNullOrEmpty(apiModels.Password))
+                switch (apiModels.AuthorizationType)
                 {
-                    var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                    case "Bearer":
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiModels.ApiKey);
+                        break;
+
+                    case "Basic":
+                        // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
+                        if (!string.IsNullOrEmpty(apiModels.Password))
+                        {
+                            var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                        }
+                        break;
+                    case "ApiKey":
+                        // ✅ ใส่ API Key ถ้ามี
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Add("X-Api-Key", apiModels.ApiKey);
+
+                        break;
                 }
+
 
                 // ✅ แปลง SendData เป็น JSON และแนบไปกับ Body ของ Request
                 var jsonData = JsonSerializer.Serialize(SendData);
@@ -747,16 +871,29 @@ namespace SME_API_Budget.Services
             {
                 using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl);
 
-                // ✅ ใส่ API Key ถ้ามี
-                if (!string.IsNullOrEmpty(apiModels.ApiKey))
-                    request.Headers.Add("X-Api-Key", apiModels.ApiKey);
-
-                // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
-                if (!string.IsNullOrEmpty(apiModels.Username) && !string.IsNullOrEmpty(apiModels.Password))
+                switch (apiModels.AuthorizationType)
                 {
-                    var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                    case "Bearer":
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiModels.ApiKey);
+                        break;
+
+                    case "Basic":
+                        // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
+                        if (!string.IsNullOrEmpty(apiModels.Password))
+                        {
+                            var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                        }
+                        break;
+                    case "ApiKey":
+                        // ✅ ใส่ API Key ถ้ามี
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Add("X-Api-Key", apiModels.ApiKey);
+
+                        break;
                 }
+
 
                 // ✅ แปลง SendData เป็น JSON และแนบไปกับ Body ของ Request
                 var jsonData = JsonSerializer.Serialize(eModels);

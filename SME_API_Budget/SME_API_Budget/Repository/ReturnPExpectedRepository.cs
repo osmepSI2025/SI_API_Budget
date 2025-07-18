@@ -31,17 +31,14 @@ namespace SME_API_Budget.Repository
             var data = await query.ToListAsync();
 
             var projects = data.ToDictionary(
-                p => p.KeyId, // Changed the key type to int
+                p => p.KeyId,
                 p => new ReturnPExpectedApiResponse
                 {
                     DATA_P1 = p.DataP1,
                     DATA_P2 = p.DataP2,
                     SubData = p.ReturnPExpectedSubs.ToDictionary(
                         s => s.SubCode,
-                        s => JsonSerializer.SerializeToElement(new ReturnPExpectedSubModels
-                        {
-                            DATA_P_S1 = s.DataPS1
-                        })
+                        s => JsonSerializer.SerializeToElement(new { DATA_P_S1 = s.DataPS1 })
                     )
                 });
 
@@ -61,8 +58,24 @@ namespace SME_API_Budget.Repository
         // ✅ Insert หลายรายการพร้อมกัน
         public async Task AddRangeAsync(List<ReturnPExpected> projects)
         {
-            await _context.ReturnPExpecteds.AddRangeAsync(projects);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.ReturnPExpecteds.AddRangeAsync(projects);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                // Log inner exception details for EF Core update errors
+                Console.WriteLine("DbUpdateException: " + dbEx.Message);
+                if (dbEx.InnerException != null)
+                    Console.WriteLine("InnerException: " + dbEx.InnerException.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex.ToString());
+                throw;
+            }
         }
         public async Task AddSubRangeAsync(List<ReturnPExpectedSub> projects)
         {
@@ -110,7 +123,7 @@ namespace SME_API_Budget.Repository
                     {
                         SubCode = sub.SubCode,
                         DataPS1 = sub.DATA_P_S1,
-                       
+                        KeyId = mainEntity.KeyId // Ensure foreign key is set
                     };
 
                     mainEntity.ReturnPExpectedSubs.Add(existingSub);

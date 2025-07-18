@@ -114,6 +114,7 @@ public class ReturnPExpectedSubModels
 {
     public int KeyId { get; set; }
     public string SubCode { get; set; }
+    [JsonPropertyName("DATA_P_S1")]
     public decimal DATA_P_S1 { get; set; }
 }
 public class ReturnPExpectedApiResponse

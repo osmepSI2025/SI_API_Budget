@@ -34,13 +34,13 @@ namespace SME_API_Budget.Services
 
                 if (projects.Any())
                 {
-                    //return projects.ToDictionary(p => p.Value.KeyId ?? p.Key, p => p.Value);
+                    return projects;
                 }
 
                 var LApi = await _repositoryApi.GetAllAsync(new MapiInformationModels { ServiceNameCode = "Return_P_Expected" });
                 if (!LApi.Any())
                 {
-                    //return projects.ToDictionary(p => p.Value.KeyId ?? p.Key, p => p.Value);
+                    return projects;
                 }
 
                 var apiParam = LApi.Select(x => new MapiInformationModels
@@ -58,26 +58,19 @@ namespace SME_API_Budget.Services
                     Username = x.Username,
                     Password = x.Password,
                     UpdateDate = x.UpdateDate
-                }).First(); // ดึงตัวแรกของ List
-                //if (apiParam == null)
-                //{
-                //    return projects.ToDictionary(p => p.Value.KeyId ?? p.Key, p => p.Value);
-                //}
+                }).First();
 
                 var resultApi = await _serviceApi.GetDataApiAsync_ReturnExpected(apiParam, year, projectcode);
 
-
                 var existingKeyIds = (await _repository.GetAllKeyIdsAsync()).ToHashSet();
                 List<ReturnPExpected> newProjects = new();
-                List<ReturnPExpectedSub> newProjectsSub = new();
 
                 foreach (var item in resultApi.Data)
                 {
                     if (!int.TryParse(item.Key, out int keyId) || existingKeyIds.Contains(keyId))
                         continue;
 
-                    // Add main entity
-                    newProjects.Add(new ReturnPExpected
+                    var mainEntity = new ReturnPExpected
                     {
                         KeyId = keyId,
                         DataP1 = item.Value.DATA_P1,
@@ -86,40 +79,49 @@ namespace SME_API_Budget.Services
                         UpdateDate = DateTime.Now,
                         YearBdg = year,
                         ProjectCode = projectcode
-                    });
+                    };
 
-                    // Add sub entities
-                    foreach (var itemsub in item.Value.SubData)
+                    if (item.Value.SubData != null)
                     {
-                        decimal dataPS1 = 0;
-                        if (itemsub.Value.ValueKind == JsonValueKind.Number)
+                        foreach (var itemsub in item.Value.SubData)
                         {
-                            // Directly parse number
-                            dataPS1 = itemsub.Value.GetDecimal();
-                        }
-                        else if (itemsub.Value.ValueKind == JsonValueKind.String && decimal.TryParse(itemsub.Value.GetString(), out decimal parsedValue))
-                        {
-                            // Handle string numbers (e.g., "5000")
-                            dataPS1 = parsedValue;
-                        }
+                            decimal dataPS1 = 0;
+                            if (itemsub.Value.ValueKind == JsonValueKind.Number)
+                            {
+                                dataPS1 = itemsub.Value.GetDecimal();
+                            }
+                            else if (itemsub.Value.ValueKind == JsonValueKind.String && decimal.TryParse(itemsub.Value.GetString(), out decimal parsedValue))
+                            {
+                                dataPS1 = parsedValue;
+                            }
 
-                        newProjectsSub.Add(new ReturnPExpectedSub
-                        {
-                            SubCode = itemsub.Key,
-                            KeyId = keyId,
-                            DataPS1 = dataPS1
-                        });
+                            mainEntity.ReturnPExpectedSubs.Add(new ReturnPExpectedSub
+                            {
+                                SubCode = itemsub.Key,
+                                KeyId = keyId,
+                                DataPS1 = dataPS1
+                               
+                            });
+                        }
                     }
+
+                    newProjects.Add(mainEntity);
                 }
 
                 if (newProjects.Count > 0)
-                    await _repository.AddRangeAsync(newProjects);
+                {
+                    try
+                    {
+                        await _repository.AddRangeAsync(newProjects);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error in AddRangeAsync: " + ex.ToString());
+                        throw;
+                    }
+                }
 
-                if (newProjectsSub.Count > 0)
-                    await _repository.AddSubRangeAsync(newProjectsSub);
-              
                 projects = await _repository.GetAllAsync(year, projectcode);
-                //  return projects.ToDictionary(p => p.Value.KeyId ?? p.Key, p => p.Value);
                 return projects;
             }
             catch (Exception ex)

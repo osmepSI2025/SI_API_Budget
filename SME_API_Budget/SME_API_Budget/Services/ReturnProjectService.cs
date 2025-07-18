@@ -96,8 +96,8 @@ namespace SME_API_Budget.Services
                         DataP9 = item.Value.DATA_P9,
                         DataP10 = item.Value.DATA_P10,
                         DataP11 = item.Value.DATA_P11,
-                        DataP12 = item.Value.DATA_P12,
-                        DataP13 = item.Value.DATA_P13,
+                        DataP12 = decimal.TryParse(item.Value.DATA_P12, out var dataP12) ? dataP12 : (decimal?)null,
+                        DataP13 = decimal.TryParse(item.Value.DATA_P13, out var dataP13) ? dataP13 : (decimal?)null,
                         CreateDate = DateTime.Now,
                         UpdateDate = DateTime.Now,
                         YearBdg = year,
@@ -160,7 +160,6 @@ namespace SME_API_Budget.Services
                     //DateTime.TryParseExact(item.Value.DATA_P5, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dataP5);
                     //decimal.TryParse(item.Value.DATA_P12, out decimal dataP12);
                     //decimal.TryParse(item.Value.DATA_P13, out decimal dataP13);
-
                     newProjects.Add(new ReturnProject
                     {
                         KeyId = keyId,
@@ -175,8 +174,8 @@ namespace SME_API_Budget.Services
                         DataP9 = item.Value.DATA_P9,
                         DataP10 = item.Value.DATA_P10,
                         DataP11 = item.Value.DATA_P11,
-                        DataP12 = item.Value.DATA_P12,
-                        DataP13 = item.Value.DATA_P13,
+                        DataP12 = decimal.TryParse(item.Value.DATA_P12, out var dataP12) ? dataP12 : (decimal?)null,
+                        DataP13 = decimal.TryParse(item.Value.DATA_P13, out var dataP13) ? dataP13 : (decimal?)null,
                         CreateDate = DateTime.Now,
                         UpdateDate = DateTime.Now,
                         YearBdg = year,
@@ -274,8 +273,8 @@ namespace SME_API_Budget.Services
                             DataP9 = item.Value.DATA_P9,
                             DataP10 = item.Value.DATA_P10,
                             DataP11 = item.Value.DATA_P11,
-                            DataP12 = item.Value.DATA_P12,
-                            DataP13 = item.Value.DATA_P13,
+                            DataP12 = decimal.TryParse(item.Value.DATA_P12, out var dataP12) ? dataP12 : (decimal?)null,
+                            DataP13 = decimal.TryParse(item.Value.DATA_P13, out var dataP13) ? dataP13 : (decimal?)null,
                             CreateDate = DateTime.Now,
                             UpdateDate = DateTime.Now,
                             YearBdg = year.ToString(),

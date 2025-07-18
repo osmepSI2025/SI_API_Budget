@@ -46,15 +46,16 @@ public partial class SMEBudgetDBContext : DbContext
 
     public virtual DbSet<ReturnProject> ReturnProjects { get; set; }
 
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema("SISMEBudget");
+        modelBuilder.UseCollation("Thai_CI_AS");
 
         modelBuilder.Entity<MapiInformation>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_MApiData");
 
-            entity.ToTable("MApiInformation");
+            entity.ToTable("MApiInformation", "SISMEBudget");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ApiKey).HasMaxLength(150);
@@ -73,7 +74,7 @@ public partial class SMEBudgetDBContext : DbContext
 
         modelBuilder.Entity<MscheduledJob>(entity =>
         {
-            entity.ToTable("MScheduledJobs");
+            entity.ToTable("MScheduledJobs", "SISMEBudget");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.JobName).HasMaxLength(150);
@@ -81,7 +82,7 @@ public partial class SMEBudgetDBContext : DbContext
 
         modelBuilder.Entity<RecPR>(entity =>
         {
-            entity.ToTable("Rec_P_Rs");
+            entity.ToTable("Rec_P_Rs", "SISMEBudget");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ActivityName)
@@ -104,7 +105,7 @@ public partial class SMEBudgetDBContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Return_P__3213E83F2A48FB31");
 
-            entity.ToTable("Return_P_Activity");
+            entity.ToTable("Return_P_Activity", "SISMEBudget");
 
             entity.HasIndex(e => e.RefCode, "UQ__Return_P__9E4C40044CF81D6D").IsUnique();
 
@@ -112,12 +113,8 @@ public partial class SMEBudgetDBContext : DbContext
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.DataP1)
-                .HasMaxLength(200)
-                .HasColumnName("DATA_P1");
-            entity.Property(e => e.DataP2)
-                .HasMaxLength(200)
-                .HasColumnName("DATA_P2");
+            entity.Property(e => e.DataP1).HasColumnName("DATA_P1");
+            entity.Property(e => e.DataP2).HasColumnName("DATA_P2");
             entity.Property(e => e.DataP3)
                 .HasColumnType("decimal(18, 0)")
                 .HasColumnName("DATA_P3");
@@ -143,7 +140,7 @@ public partial class SMEBudgetDBContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Return_P__3213E83F5D1C979A");
 
-            entity.ToTable("Return_P_Activity_Sub");
+            entity.ToTable("Return_P_Activity_Sub", "SISMEBudget");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreateDate)
@@ -170,7 +167,7 @@ public partial class SMEBudgetDBContext : DbContext
 
         modelBuilder.Entity<ReturnPArea>(entity =>
         {
-            entity.ToTable("Return_P_Area");
+            entity.ToTable("Return_P_Area", "SISMEBudget");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
@@ -188,26 +185,18 @@ public partial class SMEBudgetDBContext : DbContext
 
         modelBuilder.Entity<ReturnPExpected>(entity =>
         {
-            entity.HasKey(e => e.KeyId).HasName("PK__Return_P__21F5BE4724609A7C");
+            entity.HasKey(e => e.KeyId).HasName("PK__Return_P__21F5BE47D01A8782");
 
             entity.ToTable("Return_P_Expected");
 
             entity.Property(e => e.KeyId).ValueGeneratedNever();
-            entity.Property(e => e.CreateDate)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
-            entity.Property(e => e.DataP1)
-                .HasMaxLength(200)
-                .HasColumnName("DATA_P1");
-            entity.Property(e => e.DataP2)
-                .HasMaxLength(200)
-                .HasColumnName("DATA_P2");
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.DataP1).HasColumnName("DATA_P1");
+            entity.Property(e => e.DataP2).HasColumnName("DATA_P2");
             entity.Property(e => e.ProjectCode)
                 .HasMaxLength(50)
                 .HasColumnName("project_code");
-            entity.Property(e => e.UpdateDate)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
+            entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.YearBdg)
                 .HasMaxLength(50)
                 .HasColumnName("year_bdg");
@@ -215,7 +204,7 @@ public partial class SMEBudgetDBContext : DbContext
 
         modelBuilder.Entity<ReturnPExpectedSub>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Return_P__3214EC0741BABACD");
+            entity.HasKey(e => e.Id).HasName("PK__Return_P__3214EC073746665B");
 
             entity.ToTable("Return_P_Expected_Sub");
 
@@ -227,12 +216,12 @@ public partial class SMEBudgetDBContext : DbContext
             entity.HasOne(d => d.Key).WithMany(p => p.ReturnPExpectedSubs)
                 .HasForeignKey(d => d.KeyId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Return_P___KeyId__498EEC8D");
+                .HasConstraintName("FK__Return_P___KeyId__6442E2C9");
         });
 
         modelBuilder.Entity<ReturnPOutcome>(entity =>
         {
-            entity.ToTable("Return_P_Outcome");
+            entity.ToTable("Return_P_Outcome", "SISMEBudget");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
@@ -254,7 +243,7 @@ public partial class SMEBudgetDBContext : DbContext
 
         modelBuilder.Entity<ReturnPOutput>(entity =>
         {
-            entity.ToTable("Return_P_output");
+            entity.ToTable("Return_P_output", "SISMEBudget");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
@@ -276,7 +265,7 @@ public partial class SMEBudgetDBContext : DbContext
 
         modelBuilder.Entity<ReturnPPay>(entity =>
         {
-            entity.ToTable("Return_P_Pay");
+            entity.ToTable("Return_P_Pay", "SISMEBudget");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
@@ -299,7 +288,7 @@ public partial class SMEBudgetDBContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Return_P__3213E83FB5587A2A");
 
-            entity.ToTable("Return_P_Plan_Bdg");
+            entity.ToTable("Return_P_Plan_Bdg", "SISMEBudget");
 
             entity.HasIndex(e => e.RefCode, "UQ__Return_P__9E4C4004A74B3ED2").IsUnique();
 
@@ -324,7 +313,7 @@ public partial class SMEBudgetDBContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Return_P__3213E83F311D04D1");
 
-            entity.ToTable("Return_P_Plan_Bdg_Sub");
+            entity.ToTable("Return_P_Plan_Bdg_Sub", "SISMEBudget");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.BdgType)
@@ -357,29 +346,23 @@ public partial class SMEBudgetDBContext : DbContext
 
         modelBuilder.Entity<ReturnPRisk>(entity =>
         {
-            entity.ToTable("Return_P_Risk");
+            entity.ToTable("Return_P_Risk", "SISMEBudget");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
-            entity.Property(e => e.DataP1)
-                .HasMaxLength(200)
-                .HasColumnName("DATA_P1");
+            entity.Property(e => e.DataP1).HasColumnName("DATA_P1");
             entity.Property(e => e.DataP2)
                 .HasMaxLength(200)
                 .HasColumnName("DATA_P2");
-            entity.Property(e => e.DataP3)
-                .HasMaxLength(200)
-                .HasColumnName("DATA_P3");
-            entity.Property(e => e.DataP4)
-                .HasMaxLength(200)
-                .HasColumnName("DATA_P4");
-            entity.Property(e => e.DataP5)
-                .HasMaxLength(200)
-                .HasColumnName("DATA_P5");
+            entity.Property(e => e.DataP3).HasColumnName("DATA_P3");
+            entity.Property(e => e.DataP4).HasColumnName("DATA_P4");
+            entity.Property(e => e.DataP5).HasColumnName("DATA_P5");
             entity.Property(e => e.ProjectCode)
                 .HasMaxLength(50)
                 .HasColumnName("project_code");
-            entity.Property(e => e.RefCode).HasColumnName("REF_CODE");
+            entity.Property(e => e.RefCode)
+                .HasMaxLength(50)
+                .HasColumnName("REF_CODE");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.YearBdg)
                 .HasMaxLength(50)
@@ -388,7 +371,7 @@ public partial class SMEBudgetDBContext : DbContext
 
         modelBuilder.Entity<ReturnProject>(entity =>
         {
-            entity.ToTable("Return_Project");
+            entity.ToTable("Return_Project", "SISMEBudget");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");

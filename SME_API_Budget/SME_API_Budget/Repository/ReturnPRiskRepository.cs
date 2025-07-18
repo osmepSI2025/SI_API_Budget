@@ -28,17 +28,15 @@ namespace SME_API_Budget.Repository
             var projects = await query
                 .Select(u => new APIResponseDataReturnPRiskModels
                 {
-                  //  Id = u.Id,
+                    //  Id = u.Id,
                     DATA_P1 = u.DataP1,
                     DATA_P2 = u.DataP2,
                     DATA_P3 = u.DataP3,
                     DATA_P4 = u.DataP4,
-                    DATA_P5 = u.DataP5,
-                    RefCode = u.RefCode,
-
-
+                    DATA_P5 = u.DataP5 != null ? u.DataP5.ToString() : null,
+                    RefCode = u.RefCode, // <-- FIXED
                 })
-                .ToDictionaryAsync(p => p.RefCode ?? 0); // ✅ เปลี่ยนเป็น Dictionary
+                .ToDictionaryAsync(p => p.RefCode != null ? int.Parse(p.RefCode) : 0); // <-- FIXED
 
             return projects;
 
@@ -54,8 +52,25 @@ namespace SME_API_Budget.Repository
         // ✅ Insert หลายรายการพร้อมกัน
         public async Task AddRangeAsync(List<ReturnPRisk> projects)
         {
-            await _context.ReturnPRisks.AddRangeAsync(projects);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.ReturnPRisks.AddRangeAsync(projects);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                // Log inner exception details for EF Core update errors
+                Console.WriteLine("DbUpdateException: " + dbEx.Message);
+                if (dbEx.InnerException != null)
+                    Console.WriteLine("InnerException: " + dbEx.InnerException.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex.ToString());
+                throw;
+            }
+
         }
 
 

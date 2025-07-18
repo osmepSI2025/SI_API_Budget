@@ -17,9 +17,9 @@ public partial class ReturnPRisk
 
     public string? DataP4 { get; set; }
 
-    public string? DataP5 { get; set; }
+    public double? DataP5 { get; set; }
 
-    public int? RefCode { get; set; }
+    public string? RefCode { get; set; }
 
     public string? YearBdg { get; set; }
 

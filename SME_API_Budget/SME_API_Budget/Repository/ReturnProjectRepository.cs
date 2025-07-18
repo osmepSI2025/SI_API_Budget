@@ -42,8 +42,8 @@ namespace SME_API_Budget.Repository
                     DATA_P9 = p.DataP9,
                     DATA_P10 = p.DataP10,
                     DATA_P11 = p.DataP11,
-                    DATA_P12 = p.DataP12,
-                    DATA_P13 = p.DataP13,
+                    DATA_P12 = p.DataP12.ToString()??null,
+                    DATA_P13 = p.DataP13.ToString() ?? null,
                 }
             );
 
