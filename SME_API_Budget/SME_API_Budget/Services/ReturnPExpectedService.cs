@@ -67,12 +67,12 @@ namespace SME_API_Budget.Services
 
                 foreach (var item in resultApi.Data)
                 {
-                    if (!int.TryParse(item.Key, out int keyId) || existingKeyIds.Contains(keyId))
-                        continue;
+                    //if (!int.TryParse(item.Key, out int keyId) || existingKeyIds.Contains(keyId))
+                    //    continue;
 
                     var mainEntity = new ReturnPExpected
                     {
-                        KeyId = keyId,
+                        KeyId = int.Parse(item.Key),
                         DataP1 = item.Value.DATA_P1,
                         DataP2 = item.Value.DATA_P2,
                         CreateDate = DateTime.Now,
@@ -98,7 +98,7 @@ namespace SME_API_Budget.Services
                             mainEntity.ReturnPExpectedSubs.Add(new ReturnPExpectedSub
                             {
                                 SubCode = itemsub.Key,
-                                KeyId = keyId,
+                                KeyId = int.Parse(item.Key),
                                 DataPS1 = dataPS1
                                
                             });

@@ -40,7 +40,7 @@ namespace SME_API_Budget.Controllers
                          dict[sub.SubCode] = new Dictionary<string, string>
                          {
                              ["DATA_P_S1"] = sub.DataPS1 ?? "",
-                             ["DATA_P_S2"] = Convert.ToDecimal(sub.DataPS2).ToString(),
+                             ["DATA_P_S3"] = Convert.ToDecimal(sub.DataPS2).ToString(),
                              ["REF_CODE_2"] = sub.RefCode2 ?? "",
                              ["BDG_TYPE"] = sub.BdgType ?? "",
                          };

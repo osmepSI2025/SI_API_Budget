@@ -39,10 +39,10 @@ namespace SME_API_Budget.Services
                 return new ApiResponseReturnProjectModels { StatusCode = 400, Message = "API URL is missing" };
 
             // ✅ Replace ค่าใน URL (ใช้ ?? เพื่อป้องกัน null)
-                apiUrl = apiUrl
-                    .Replace("{1}", apiModels.ServiceNameCode ?? "")
-                .Replace("{2}", year ?? "")
-                .Replace("{3}", projectcode ?? "") +"xxxxxxx";
+            apiUrl = apiUrl
+                .Replace("{1}", apiModels.ServiceNameCode ?? "")
+            .Replace("{2}", year ?? "");
+            
             requestJson = apiUrl;
             try
             {
@@ -53,7 +53,7 @@ namespace SME_API_Budget.Services
                     request.Headers.Add("X-Api-Key", apiModels.ApiKey);
 
                 // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
-                if (!string.IsNullOrEmpty(apiModels.Username) && !string.IsNullOrEmpty(apiModels.Password))
+                if ( !string.IsNullOrEmpty(apiModels.Password))
                 {
                     var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
                     request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
@@ -88,7 +88,8 @@ namespace SME_API_Budget.Services
                     InnerException = ex.InnerException?.ToString(),
                     SystemCode = Api_SysCode,
                     CreatedBy = "system"
-
+                    ,
+                    HttpCode = "500"
                 };
                 await RecErrorLogApiAsync(apiModels, errorLog);
                 throw new Exception("Error in GetData: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message);
