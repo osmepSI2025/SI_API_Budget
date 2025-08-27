@@ -17,6 +17,8 @@ namespace SME_API_Budget.Services
         Task<ApiResponseReturnPPlanBdgModels> GetDataApiAsync_ReturnPPlanBdg(MapiInformationModels apiModels, string? year, string? projectcode);
 
         Task<ApiRecPRResponseModel> RecDataApiAsync_RecPRs(MapiInformationModels apiModels, string? year, string? projectcode, string? ref_code, RecPRSubDataModel SendData);
+        Task<ApiRecP301ResponseModel> RecDataApiAsync_RecP301(MapiInformationModels apiModels, RecP301Models SendData);
+
         Task<ApiResponseReturnPExpectedModels> GetDataApiAsync_ReturnExpected(MapiInformationModels apiModels, string? year, string? projectcode);
     }
 }

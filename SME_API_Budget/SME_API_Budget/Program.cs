@@ -55,6 +55,7 @@ namespace SME_API_Budget
 
             builder.Services.AddScoped<IReturnProjectRepository, ReturnProjectRepository>();
             builder.Services.AddScoped<IReturnProjectService, ReturnProjectService>();
+            builder.Services.AddScoped<IRecP301Service, RecP301Service>();
 
             //service call api
             builder.Services.AddScoped<ICallAPIService, CallAPIService>();

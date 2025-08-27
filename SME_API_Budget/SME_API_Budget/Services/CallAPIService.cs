@@ -46,7 +46,7 @@ namespace SME_API_Budget.Services
             requestJson = apiUrl;
             try
             {
-                using var request = new HttpRequestMessage(HttpMethod.Get, $"{apiUrl}/data");
+                using var request = new HttpRequestMessage(HttpMethod.Get, $"{apiUrl}");
 
                 // ✅ ใส่ API Key ถ้ามี
                 if (!string.IsNullOrEmpty(apiModels.ApiKey))
@@ -860,6 +860,106 @@ namespace SME_API_Budget.Services
                 throw new Exception("Error in GetData: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message);
             }
         }
+
+        public async Task<ApiRecP301ResponseModel> RecDataApiAsync_RecP301(MapiInformationModels apiModels, RecP301Models SendData)
+        {
+            string requestJson = "";
+            if (apiModels == null)
+                return new ApiRecP301ResponseModel { StatusCode = 400, Message = "Invalid API parameters" };
+
+            // ✅ เลือก URL ตาม _FlagDev
+            string? apiUrl = _FlagDev == "Y" ? apiModels.Urldevelopment : apiModels.Urlproduction;
+
+            if (string.IsNullOrEmpty(apiUrl))
+                return new ApiRecP301ResponseModel { StatusCode = 400, Message = "API URL is missing" };
+
+            // ✅ Replace ค่าใน URL (ใช้ ?? เพื่อป้องกัน null)
+            apiUrl = apiUrl
+                .Replace("{1}", apiModels.ServiceNameCode ?? "")
+           
+                ;
+            try
+            {
+                using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl);
+                switch (apiModels.AuthorizationType)
+                {
+                    case "Bearer":
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiModels.ApiKey);
+                        break;
+
+                    case "Basic":
+                        // ✅ ใส่ Basic Authentication ถ้ามี Username & Password
+                        if (!string.IsNullOrEmpty(apiModels.Password))
+                        {
+                            var authHeader = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{apiModels.Username}:{apiModels.Password}"));
+                            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeader);
+                        }
+                        break;
+                    case "ApiKey":
+                        // ✅ ใส่ API Key ถ้ามี
+                        if (!string.IsNullOrEmpty(apiModels.ApiKey))
+                            request.Headers.Add("X-Api-Key", apiModels.ApiKey);
+
+                        break;
+                }
+
+
+                // ✅ แปลง SendData เป็น JSON และแนบไปกับ Body ของ Request
+                var jsonData = JsonSerializer.Serialize(SendData);
+                requestJson = jsonData;
+                request.Content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+                // ✅ Call API และรอผลลัพธ์
+                using var response = await _httpClient.SendAsync(request);
+                string responseData = await response.Content.ReadAsStringAsync();
+
+                // ✅ Deserialize ข้อมูล JSON Response
+                //var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                //var resultx = JsonSerializer.Deserialize<Dictionary<string, object>>(responseData, options);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    return new ApiRecP301ResponseModel
+                    {
+                        StatusCode = (int)response.StatusCode,
+                        Message = response.IsSuccessStatusCode ? "Success" : $"API Error: {response.ReasonPhrase}",
+                        Data = responseData
+                    };
+                }
+                else
+                {
+                    return new ApiRecP301ResponseModel
+                    {
+                        StatusCode = 500,
+                        Message = response.IsSuccessStatusCode ? "Success" : $"API Error: {response.ReasonPhrase}",
+                        // Data = resultx
+                    };
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var errorLog = new ErrorLogModels
+                {
+                    Message = "Function " + apiModels.ServiceNameTh + " " + ex.Message,
+                    StackTrace = ex.StackTrace,
+                    Source = ex.Source,
+                    TargetSite = ex.TargetSite?.ToString(),
+                    ErrorDate = DateTime.Now,
+                    UserName = apiModels.Username, // ดึงจาก context หรือ session
+                    Path = apiModels.Urlproduction,
+                    HttpMethod = apiModels.MethodType,
+                    RequestData = requestJson, // serialize เป็น JSON
+                    InnerException = ex.InnerException?.ToString(),
+                    SystemCode = Api_SysCode,
+                    CreatedBy = "system"
+
+                };
+                await RecErrorLogApiAsync(apiModels, errorLog);
+                throw new Exception("Error in GetData: " + ex.Message + " | Inner Exception: " + ex.InnerException?.Message);
+            }
+        }
+
         public async Task RecErrorLogApiAsync(MapiInformationModels apiModels,ErrorLogModels eModels)
         {
     
