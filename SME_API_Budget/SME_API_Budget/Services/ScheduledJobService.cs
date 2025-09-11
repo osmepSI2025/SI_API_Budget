@@ -60,7 +60,7 @@ public class ScheduledJobService : BackgroundService
                 await serviceProvider.GetRequiredService<ReturnPOutcomeService>().BatchReturn_Outcome();
                 break;
             case "Return_P_Expected":
-                await serviceProvider.GetRequiredService<ReturnPExpectedService>().BatchReturn_Outcome();
+                await serviceProvider.GetRequiredService<ReturnPExpectedService>().BatchReturn_Expected();
                 break;
             case "Return_P_Activity":
                 await serviceProvider.GetRequiredService<ReturnPActivityService>().BatchReturn_Activity();

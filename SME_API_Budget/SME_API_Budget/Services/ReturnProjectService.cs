@@ -183,7 +183,7 @@ namespace SME_API_Budget.Services
                     });
                 }
 
-                if (newProjects.Count > 0)
+                if (newProjects.Count > 0) { }
                     await _repository.AddRangeAsync(newProjects);
 
            

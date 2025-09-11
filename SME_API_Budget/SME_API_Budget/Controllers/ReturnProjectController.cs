@@ -67,7 +67,17 @@ namespace SME_API_Budget.Controllers
         {
             try
             {
-                var projects = await _service.BatchAllAsync("2567");
+                int currentYear = DateTime.Now.Year;
+                int currentYearTh;
+                if (currentYear < 2500)
+                {
+                    currentYearTh = currentYear + 543;
+                }
+                else 
+                {
+                    currentYearTh = currentYear;
+                }
+                var projects = await _service.BatchAllAsync(currentYearTh.ToString());
 
 
                 return Ok(projects);

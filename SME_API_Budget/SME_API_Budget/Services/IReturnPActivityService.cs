@@ -10,5 +10,6 @@ namespace SME_API_Budget.Services
         Task AddAsync(ReturnPActivity activity);
         Task UpdateAsync(ReturnPActivity activity);
         Task DeleteAsync(int? refCode);
+        Task<int> BatchReturn_Activity();
     }
 }

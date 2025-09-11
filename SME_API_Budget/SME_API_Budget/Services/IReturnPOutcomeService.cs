@@ -10,5 +10,6 @@ namespace SME_API_Budget.Services
         Task AddAsync(ReturnPOutcome entity);
         Task UpdateAsync(ReturnPOutcome entity);
         Task DeleteAsync(int id);
+        Task<int> BatchReturn_Outcome();
     }
 }

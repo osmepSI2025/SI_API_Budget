@@ -11,5 +11,6 @@ namespace SME_API_Budget.Services
         Task AddAsync(ReturnPRisk entity);
         Task UpdateAsync(ReturnPRisk entity);
         Task DeleteAsync(int id);
+        Task<int> BatchReturn_Risk();
     }
 }

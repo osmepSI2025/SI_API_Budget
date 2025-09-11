@@ -11,5 +11,6 @@ namespace SME_API_Budget.Services
         Task AddAsync(ReturnPExpected entity);
         Task UpdateAsync(ReturnPExpected entity);
         Task DeleteAsync(int id);
+        Task<int> BatchReturn_Expected();
     }
 }

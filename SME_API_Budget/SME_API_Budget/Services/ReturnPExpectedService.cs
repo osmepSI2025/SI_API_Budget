@@ -145,7 +145,7 @@ namespace SME_API_Budget.Services
             => await _repository.DeleteAsync(id);
 
 
-        public async Task<int> BatchReturn_Outcome()
+        public async Task<int> BatchReturn_Expected()
         {
             var thaiCulture = new CultureInfo("th-TH");
             var buddhistCalendar = new ThaiBuddhistCalendar();

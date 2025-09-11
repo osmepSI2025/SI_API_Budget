@@ -9,5 +9,6 @@ namespace SME_API_Budget.Services
         Task AddAsync(ReturnPPlanBdg entity);
         Task UpdateAsync(ReturnPPlanBdg entity);
         Task DeleteAsync(int id);
+        Task<int> BatchReturn_PlanBdg();
     }
 }

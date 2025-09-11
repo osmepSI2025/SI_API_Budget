@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using SME_API_Budget.Repository;
 using SME_API_Budget.Services;
 using SME_API_SMEBudget.Entities;
-
+using Quartz;
+using Serilog;
 namespace SME_API_Budget
 {
     public class Program
@@ -11,6 +12,16 @@ namespace SME_API_Budget
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            // Update the Serilog configuration to use the correct method
+            builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
+                .ReadFrom.Configuration(context.Configuration) // Removed GetSection("Serilog")
+                .WriteTo.File(
+                    path: "Logs/app-log.txt",
+                    rollingInterval: RollingInterval.Day,
+                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
+                )
+            );
             // ✅ Register Database Context
             builder.Services.AddDbContext<SMEBudgetDBContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
@@ -63,10 +74,21 @@ namespace SME_API_Budget
             builder.Services.AddHttpClient<CallAPIService>();
             builder.Services.AddSingleton<CallAPIService>();
 
-            builder.Services.AddHostedService<ScheduledJobService>();
+            //  builder.Services.AddHostedService<ScheduledJobService>();
             // Cron job
-            //builder.Services.AddHostedService<CronBackgroundService>();
-            //builder.Services.AddScoped<IJobService, JobService>();
+            // Add Quartz.NET services
+            builder.Services.AddQuartz(q =>
+            {
+                //  q.UseMicrosoftDependencyInjectionScopedJobFactory();
+                q.AddJob<ScheduledJobPuller>(j => j.WithIdentity("ScheduledJobPuller").StoreDurably());
+            });
+
+            builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
+            // Register your IHostedService to manage jobs
+            builder.Services.AddHostedService<JobSchedulerService>();
+
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment()
