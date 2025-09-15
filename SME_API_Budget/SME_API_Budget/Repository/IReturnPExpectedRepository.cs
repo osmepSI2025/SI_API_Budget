@@ -5,7 +5,6 @@ namespace SME_API_Budget.Repository
 {
     public interface IReturnPExpectedRepository
     {
-        //Task<IEnumerable<ReturnPExpected>> GetAllAsync(string? year, string? projectcode);
         Task<ReturnPExpected> GetByIdAsync(int id);
         Task AddAsync(ReturnPExpected entity);
         Task UpdateAsync(ReturnPExpected entity);

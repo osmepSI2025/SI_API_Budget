@@ -132,43 +132,6 @@ public class ScheduledJobPuller : IJob
         }
     }
 
-    private async Task RunJobAsync(string jobName, CancellationToken cancellationToken)
-    {
-        switch (jobName)
-        {
-            case "Return_Project":
-                string yearth = DateTime.Now.Year.ToString();
-                await _returnProjectService.BatchAllAsync("2568");
-                break;
-            case "Return_P_Area":
-                await _returnPAreaService.BatchP_Area();
-                break;
-            case "Return_P_output":
-                await _returnPOutputService.Batch_Return_Output();
-                break;
-            case "Return_P_Outcome":
-                await _returnPOutcomeService.BatchReturn_Outcome();
-                break;
-            case "Return_P_Expected":
-                await _returnPExpectedService.BatchReturn_Expected();
-                break;
-            case "Return_P_Activity":
-                await _returnPActivityService.BatchReturn_Activity();
-                break;
-            case "Return_P_Plan_Bdg":
-                await _returnPPlanBdgService.BatchReturn_PlanBdg();
-                break;
-            case "Return_P_Risk":
-                await _returnPRiskService.BatchReturn_Risk();
-                break;
-            case "Return_P_Pay":
-                await _returnPPayService.BatchReturn_Pay();
-                break;
-            default:
-                // Optionally log unknown job
-                break;
-        }
-    }
 }
 
 public class JobSchedulerService : IHostedService

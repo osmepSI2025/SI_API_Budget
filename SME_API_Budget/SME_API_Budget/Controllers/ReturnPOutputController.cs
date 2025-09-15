@@ -15,7 +15,7 @@ namespace SME_API_Budget.Controllers
             _service = service;
         }
 
-      //  [HttpGet("Return_P_output/{year}")]
+      
         [HttpGet("Return_P_output/{year}/{projectCode}")]
         public async Task<IActionResult> GetAll(string year, string projectCode)
         {

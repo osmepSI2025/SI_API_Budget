@@ -21,9 +21,6 @@ namespace SME_API_Budget.Services
             _returnProjectService = returnProjectService;
         }
 
-        //public async Task<IEnumerable<ReturnPExpected>> GetAllAsync(string? year, string? projectcode)
-
-        //    => await _repository.GetAllAsync(year, projectcode);
         public async Task<Dictionary<int, ReturnPExpectedApiResponse>> GetAllAsync(string year, string projectcode)
         {
             var result = new Dictionary<int, ReturnPExpectedApiResponse>();

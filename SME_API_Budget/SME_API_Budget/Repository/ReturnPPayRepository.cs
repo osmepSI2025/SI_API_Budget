@@ -16,15 +16,7 @@ namespace SME_API_Budget.Repository
 
         public async Task<APIResponseDataReturnPPayModels> GetAllAsync(string? year, string? projectcode)
         {
-            //var query = _context.ReturnPPays.AsQueryable();
-
-            //if (!string.IsNullOrEmpty(year) && year != "")
-            //    query = query.Where(p => p.YearBdg == year);
-
-            //if (!string.IsNullOrEmpty(projectcode) && projectcode != "")
-            //    query = query.Where(p => p.ProjectCode == projectcode);
-
-            //return await query.ToListAsync();
+        
 
             var query = _context.ReturnPPays.AsQueryable();
 

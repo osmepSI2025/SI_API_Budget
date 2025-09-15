@@ -70,16 +70,14 @@ namespace SME_API_Budget
 
             //service call api
             builder.Services.AddScoped<ICallAPIService, CallAPIService>();
-            //    builder.Services.AddScoped<IReturnProjectService, ReturnProjectService>();
             builder.Services.AddHttpClient<CallAPIService>();
             builder.Services.AddSingleton<CallAPIService>();
 
-            //  builder.Services.AddHostedService<ScheduledJobService>();
+           
             // Cron job
             // Add Quartz.NET services
             builder.Services.AddQuartz(q =>
             {
-                //  q.UseMicrosoftDependencyInjectionScopedJobFactory();
                 q.AddJob<ScheduledJobPuller>(j => j.WithIdentity("ScheduledJobPuller").StoreDurably());
             });
 

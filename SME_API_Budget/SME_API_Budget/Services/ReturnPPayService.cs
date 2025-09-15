@@ -23,8 +23,6 @@ namespace SME_API_Budget.Services
             _returnProjectService = returnProjectService;
         }
 
-        //public async Task<IEnumerable<ReturnPPay>> GetAllAsync(string? year, string? projectcode)
-        //    => await _repository.GetAllAsync(year, projectcode);
         public async Task<APIResponseDataReturnPPayModels> GetAllAsync(string year, string projectcode)
         {
             APIResponseDataReturnPPayModels xapiResponseReturnAreaModels = new();

@@ -57,7 +57,6 @@ namespace SME_API_Budget.Services
                 }).First(); // ดึงตัวแรกของ List
                 if (apiParam == null)
                 {
-                  //  return projects.ToDictionary(p => p.Value.KeyId ?? p.Key, p => p.Value);
                     return projects;
                 }
 
@@ -65,7 +64,6 @@ namespace SME_API_Budget.Services
 
                 if (resultApi.Data == null || resultApi.Data.Count == 0)
                 {
-                    //  return projects.ToDictionary(p => p.Value.KeyId ?? p.Key, p => p.Value);
                     return projects;
                 }
 
@@ -77,10 +75,6 @@ namespace SME_API_Budget.Services
                     if (!int.TryParse(item.Key, out int keyId) || existingKeyIds.Contains(keyId))
                         continue;
 
-                    //DateTime.TryParseExact(item.Value.DATA_P4, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dataP4);
-                    //DateTime.TryParseExact(item.Value.DATA_P5, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dataP5);
-                    //decimal.TryParse(item.Value.DATA_P12, out decimal dataP12);
-                    //decimal.TryParse(item.Value.DATA_P13, out decimal dataP13);
 
                     newProjects.Add(new ReturnProject
                     {

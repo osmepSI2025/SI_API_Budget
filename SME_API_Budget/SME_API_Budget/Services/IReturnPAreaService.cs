@@ -5,7 +5,6 @@ namespace SME_API_Budget.Services
 {
     public interface IReturnPAreaService
     {
-        //   Task<IEnumerable<ReturnPArea>> GetAllAsync(string? year, string? projectcode);
         Task<APIResponseDataReturnPAreaModels?> GetAllAsync(string? year, string? projectcode);
         Task<ReturnPArea> GetByIdAsync(int id);
         Task AddAsync(ReturnPArea entity);

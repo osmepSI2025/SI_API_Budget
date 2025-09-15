@@ -5,7 +5,6 @@ namespace SME_API_Budget.Repository
 {
     public interface IReturnPOutcomeRepository
     {
-        //Task<IEnumerable<APIResponseDataReturnPOutComeModels>> GetAllAsync(string? year, string? projectcode);
         Task<Dictionary<int, APIResponseDataReturnPOutComeModels>> GetAllAsync(string year, string projectcode);
         Task AddRangeAsync(List<ReturnPOutcome> projects);
         Task<List<int>> GetAllKeyIdsAsync();

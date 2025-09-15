@@ -16,15 +16,7 @@ namespace SME_API_Budget.Repository
         public async Task<IEnumerable<ReturnPPlanBdg>> GetAllAsync(string? year, string? projectcode)
 
         {
-            //var query = _context.ReturnPPlanBdgs.AsQueryable();
-
-            //if (!string.IsNullOrEmpty(year) && year != "")
-            //    query = query.Where(p => p.YearBdg == year);
-
-            //if (!string.IsNullOrEmpty(projectcode) && projectcode != "")
-            //    query = query.Where(p => p.ProjectCode == projectcode);
-
-            //return await query.ToListAsync();
+            
             try
             {
                 var query = _context.ReturnPPlanBdgs.AsQueryable();

@@ -32,13 +32,7 @@ namespace SME_API_Budget.Services
                 if (projects != null)
                 {
                     return projects;
-                    //xapiResponseReturnAreaModels.StatusCode = 200;
-                    //xapiResponseReturnAreaModels.Message = "OK";
-                    //xapiResponseReturnAreaModels.Data = new APIResponseDataReturnPAreaModels
-                    //{
-                    //    DATA_P1 = projects.DATA_P1 ?? ""
-                    //};
-                    //return xapiResponseReturnAreaModels;
+                
                 }
 
                 var LApi = await _repositoryApi.GetAllAsync(new MapiInformationModels { ServiceNameCode = "Return_P_Area" });
