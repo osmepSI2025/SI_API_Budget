@@ -57,6 +57,11 @@ namespace SME_API_Budget.Controllers
          //  return Ok(result);
         }
 
-    
+        [HttpGet("Batch_Return_P_Activity")]
+        public async Task<IActionResult> Batch_Return_P_Activity()
+        {
+           await _service.BatchReturn_Activity();
+            return Ok("1");
+        }
     }
 }

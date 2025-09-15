@@ -75,14 +75,50 @@ namespace SME_API_Budget.Repository
 
         public async Task AddAsync(ReturnProject entity)
         {
-            await _context.ReturnProjects.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            try {
+                await _context.ReturnProjects.AddAsync(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex) 
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+        
         }
-
         public async Task UpdateAsync(ReturnProject entity)
         {
-            _context.ReturnProjects.Update(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var existing = await _context.ReturnProjects
+                    .FirstOrDefaultAsync(x => x.KeyId == entity.KeyId);
+
+                if (existing != null)
+                {
+                    // Update properties
+                    existing.DataP1 = entity.DataP1;
+                    existing.DataP2 = entity.DataP2;
+                    existing.DataP3 = entity.DataP3;
+                    existing.DataP4 = entity.DataP4;
+                    existing.DataP5 = entity.DataP5;
+                    existing.DataP6 = entity.DataP6;
+                    existing.DataP7 = entity.DataP7;
+                    existing.DataP8 = entity.DataP8;
+                    existing.DataP9 = entity.DataP9;
+                    existing.DataP10 = entity.DataP10;
+                    existing.DataP11 = entity.DataP11;
+                    existing.DataP12 = entity.DataP12;
+                    existing.DataP13 = entity.DataP13;
+                    existing.YearBdg = entity.YearBdg;
+                    existing.ProjectCode = entity.ProjectCode;
+                    existing.UpdateDate = entity.UpdateDate;
+
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
         }
 
         public async Task DeleteAsync(int id)

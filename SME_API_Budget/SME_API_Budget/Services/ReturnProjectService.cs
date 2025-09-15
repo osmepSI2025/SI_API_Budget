@@ -150,17 +150,12 @@ namespace SME_API_Budget.Services
            
                 var existingKeyIds = (await _repository.GetAllKeyIdsAsync()).ToHashSet();
                 List<ReturnProject> newProjects = new();
-
                 foreach (var item in resultApi.Data)
                 {
-                    if (!int.TryParse(item.Key, out int keyId) || existingKeyIds.Contains(keyId))
+                    if (!int.TryParse(item.Key, out int keyId))
                         continue;
 
-                    //DateTime.TryParseExact(item.Value.DATA_P4, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dataP4);
-                    //DateTime.TryParseExact(item.Value.DATA_P5, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dataP5);
-                    //decimal.TryParse(item.Value.DATA_P12, out decimal dataP12);
-                    //decimal.TryParse(item.Value.DATA_P13, out decimal dataP13);
-                    newProjects.Add(new ReturnProject
+                    var project = new ReturnProject
                     {
                         KeyId = keyId,
                         DataP1 = item.Value.DATA_P1,
@@ -180,14 +175,23 @@ namespace SME_API_Budget.Services
                         UpdateDate = DateTime.Now,
                         YearBdg = year,
                         ProjectCode = item.Value.DATA_P11
-                    });
+                    };
+
+                    if (existingKeyIds.Contains(keyId))
+                    {
+                        await _repository.UpdateAsync(project);
+                    }
+                    else
+                    {
+                        newProjects.Add(project);
+                    }
                 }
 
-                if (newProjects.Count > 0) { }
+                if (newProjects.Count > 0)
                     await _repository.AddRangeAsync(newProjects);
 
-           
-               
+
+
                 return 1;
             }
             catch (Exception ex)

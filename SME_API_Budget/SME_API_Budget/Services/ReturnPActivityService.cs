@@ -171,7 +171,7 @@ namespace SME_API_Budget.Services
 
             var currentYear = buddhistCalendar.GetYear(DateTime.Now);
 
-            var years = Enumerable.Range(currentYear - 4, 5).Reverse();
+            var years = new[] { currentYear - 1, currentYear + 1 };
 
             foreach (var year in years)
             {
@@ -179,10 +179,11 @@ namespace SME_API_Budget.Services
 
                 foreach (var item in Lprojects)
                 {
-                    var result = await GetAllAsync(year.ToString(), item.Value.DATA_P11);
+                    if (item.Value.DATA_P11.Length > 5)
+                    {
+                         var result = await GetAllAsync(year.ToString(), item.Value.DATA_P11);
+                    }
                 }
-
-
             }
             return 1; // Placeholder for delete operation, implement as needed
         }

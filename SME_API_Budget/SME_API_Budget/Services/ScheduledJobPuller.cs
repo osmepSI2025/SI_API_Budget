@@ -88,8 +88,13 @@ public class ScheduledJobPuller : IJob
                         {
                             currentYearTh = currentYear;
                         }
-
-                        await _returnProjectService.BatchAllAsync(currentYearTh.ToString());
+                        int currentYearThto  = currentYearTh+1;
+                        // วนลูปตั้งแต่ currentYearTh ถึง currentYearTh+1
+                        for (int year = currentYearTh; year <= currentYearThto; year++)
+                        {
+                            await _returnProjectService.BatchAllAsync(year.ToString());
+                        }
+                       
                         break;
                     case "Return_P_Area":
                         await _returnPAreaService.BatchP_Area();
