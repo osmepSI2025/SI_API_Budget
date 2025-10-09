@@ -32,7 +32,7 @@ namespace SME_API_Budget.Services
                     return projects;
                 }
 
-                var LApi = await _repositoryApi.GetAllAsync(new MapiInformationModels { ServiceNameCode = "Return_Project" });
+                var LApi = await _repositoryApi.GetAllAsync(new MapiInformationModels { ServiceNameCode = "Return_P_Area" });
                 if (!LApi.Any())
                 {
                    // return projects.ToDictionary(p => p.Value.KeyId ?? p.Key, p => p.Value);
@@ -139,6 +139,7 @@ namespace SME_API_Budget.Services
                     Password = x.Password,
                     UpdateDate = x.UpdateDate
                 }).First(); // ดึงตัวแรกของ List
+
                 var resultApi = await _serviceApi.GetDataApiAsync_ReturnProject(apiParam, year,"");
 
            
@@ -146,6 +147,8 @@ namespace SME_API_Budget.Services
                 List<ReturnProject> newProjects = new();
                 foreach (var item in resultApi.Data)
                 {
+                    if (string.IsNullOrEmpty(item.Value.DATA_P11))
+                        continue;
                     if (!int.TryParse(item.Key, out int keyId))
                         continue;
 
@@ -168,7 +171,9 @@ namespace SME_API_Budget.Services
                         CreateDate = DateTime.Now,
                         UpdateDate = DateTime.Now,
                         YearBdg = year,
-                        ProjectCode = item.Value.DATA_P11
+                        ProjectCode = item.Value.DATA_P11,
+                         DataP14 = item.Value.DATA_P14 != null && int.TryParse(item.Value.DATA_P14.ToString(), out var dataP14) ? dataP14 : (int?)null
+
                     };
 
                     if (existingKeyIds.Contains(keyId))
@@ -276,7 +281,10 @@ namespace SME_API_Budget.Services
                             CreateDate = DateTime.Now,
                             UpdateDate = DateTime.Now,
                             YearBdg = year.ToString(),
-                            ProjectCode = item.Value.DATA_P11
+                            ProjectCode = item.Value.DATA_P11,
+                            // Replace this line:
+                   
+                            DataP14 = item.Value.DATA_P14 != null && int.TryParse(item.Value.DATA_P14.ToString(), out var dataP14) ? dataP14 : (int?)null
                         });
                     }
 

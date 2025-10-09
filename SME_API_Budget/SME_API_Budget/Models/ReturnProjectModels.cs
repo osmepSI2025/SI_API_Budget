@@ -78,6 +78,9 @@ public class APIResponseReturnProjectModels
     public string? DATA_P12 { get; set; }
     [JsonPropertyName("DATA_P13")]
     public string? DATA_P13 { get; set; }
+    [JsonPropertyName("DATA_P14")]
+    public int? DATA_P14 { get; set; }
+
 }
 public class ApiResponseReturnProjectModels
 {

@@ -141,9 +141,11 @@ namespace SME_API_Budget.Services
             var thaiCulture = new CultureInfo("th-TH");
             var buddhistCalendar = new ThaiBuddhistCalendar();
 
+
             var currentYear = buddhistCalendar.GetYear(DateTime.Now);
 
-            var years = Enumerable.Range(currentYear - 4, 5).Reverse();
+            var years = new[] { currentYear, currentYear + 1 };
+
 
             foreach (var year in years)
             {

@@ -10,6 +10,8 @@ namespace SME_API_Budget.Repository
         Task AddRangeAsyncSub(List<ReturnPActivitySub> projectsSub);
         Task<List<int>> GetAllKeyIdsAsync();
         Task<ReturnPActivity> GetByIdAsync(int id);
+        Task<ReturnPActivity> GetByRefcodeAsync(int id);
+        
         Task AddAsync(ReturnPActivity entity);
         Task UpdateAsync(ReturnPActivity entity);
         Task DeleteAsync(int id);

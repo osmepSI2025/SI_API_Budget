@@ -87,6 +87,8 @@ namespace SME_API_Budget.Repository
         public async Task<ReturnPActivity> GetByIdAsync(int id)
             => await _context.ReturnPActivities.FindAsync(id);
 
+        public async Task<ReturnPActivity> GetByRefcodeAsync(int refcode)
+        => await _context.ReturnPActivities.Where(r => r.RefCode == refcode).FirstOrDefaultAsync();
         public async Task AddAsync(ReturnPActivity entity)
         {
             await _context.ReturnPActivities.AddAsync(entity);

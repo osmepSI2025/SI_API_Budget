@@ -16,25 +16,64 @@ namespace SME_API_Budget.Repository
 
         public async Task<APIResponseDataReturnPPayModels> GetAllAsync(string? year, string? projectcode)
         {
-        
+            try {
+                var query = _context.ReturnPPays.AsQueryable();
 
-            var query = _context.ReturnPPays.AsQueryable();
+                if (!string.IsNullOrEmpty(year))
+                    query = query.Where(p => p.YearBdg == year);
 
-            if (!string.IsNullOrEmpty(year))
-                query = query.Where(p => p.YearBdg == year);
+                if (!string.IsNullOrEmpty(projectcode))
+                    query = query.Where(p => p.ProjectCode == projectcode);
 
-            if (!string.IsNullOrEmpty(projectcode))
-                query = query.Where(p => p.ProjectCode == projectcode);
+                var project = await query
+                    .Select(u => new APIResponseDataReturnPPayModels
+                    {
+                        DATA_P1 = u.DataP1,
+                        DATA_P2 = u.DataP2
+                    })
+                    .FirstOrDefaultAsync(); // ✅ ใช้ `await` ที่นี่โดยตรง
 
-            var project = await query
-                .Select(u => new APIResponseDataReturnPPayModels
-                {
-                    DATA_P1 = u.DataP1,
-                    DATA_P2 =Convert.ToInt16( u.DataP2)
-                })
-                .FirstOrDefaultAsync(); // ✅ ใช้ `await` ที่นี่โดยตรง
+                return project; // ❌ ไม่ต้อง `await` เพราะ `project` ไม่ใช่ Task
+            }
+            catch (Exception ex) 
+            {
+                return null;
+            }
+   
+        }
 
-            return project; // ❌ ไม่ต้อง `await` เพราะ `project` ไม่ใช่ Task
+        public async Task<ReturnPPayModels> GetPayCheckAllAsync(string? year, string? projectcode)
+        {
+            try
+            {
+                var query = _context.ReturnPPays.AsQueryable();
+
+                if (!string.IsNullOrEmpty(year))
+                    query = query.Where(p => p.YearBdg == year);
+
+                if (!string.IsNullOrEmpty(projectcode))
+                    query = query.Where(p => p.ProjectCode == projectcode);
+
+                var project = await query
+                    .Select(u => new ReturnPPayModels
+                    {
+                        DATA_P1 = u.DataP1,
+                        DATA_P2 = u.DataP2 != null ? u.DataP2.ToString() : "",
+                        YearBdg = u.YearBdg,
+                        ProjectCode = u.ProjectCode
+                       // , CreateDate = u.CreateDate,
+                        , Id = u.Id
+
+                    })
+                    .FirstOrDefaultAsync(); // ✅ ใช้ `await` ที่นี่โดยตรง
+
+                return project; // ❌ ไม่ต้อง `await` เพราะ `project` ไม่ใช่ Task
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
         }
         public async Task AddRangeAsync(List<ReturnPPay> projects)
         {
@@ -52,8 +91,16 @@ namespace SME_API_Budget.Repository
 
         public async Task UpdateAsync(ReturnPPay entity)
         {
-            _context.ReturnPPays.Update(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.ReturnPPays.Update(entity);
+              var ccc= await _context.SaveChangesAsync();
+
+            }
+            catch(Exception ex) {
+            
+            }  
+          
         }
 
         public async Task DeleteAsync(int id)

@@ -35,6 +35,8 @@ public partial class ReturnProject
 
     public decimal? DataP13 { get; set; }
 
+    public int? DataP14 { get; set; }
+
     public string? YearBdg { get; set; }
 
     public string? ProjectCode { get; set; }

@@ -15,13 +15,15 @@ namespace SME_API_Budget
 
             // Update the Serilog configuration to use the correct method
             builder.Host.UseSerilog((context, services, loggerConfiguration) => loggerConfiguration
-                .ReadFrom.Configuration(context.Configuration) // Removed GetSection("Serilog")
-                .WriteTo.File(
-                    path: "Logs/app-log.txt",
-                    rollingInterval: RollingInterval.Day,
-                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
-                )
-            );
+               .ReadFrom.Configuration(context.Configuration)
+               .WriteTo.File(
+                   path: "Logs/app-log.txt",
+                   rollingInterval: RollingInterval.Day,
+                   outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
+               )
+               .MinimumLevel.Information()
+               .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", Serilog.Events.LogEventLevel.Warning)
+           );
             // ✅ Register Database Context
             builder.Services.AddDbContext<SMEBudgetDBContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
@@ -45,8 +47,12 @@ namespace SME_API_Budget
             //add service
             builder.Services.AddScoped<IApiInformationRepository, ApiInformationRepository>();
             builder.Services.AddScoped<IApiInformationService, ApiInformationService>();
-            builder.Services.AddScoped<IRecPRsRepository, RecPRsRepository>();
+
+            builder.Services.AddHttpClient<ICallAPIService, CallAPIService>();
             builder.Services.AddScoped<IRecPRsService, RecPRsService>();
+            builder.Services.AddScoped<IRecPRsRepository, RecPRsRepository>();
+        
+
             builder.Services.AddScoped<IReturnPActivityRepository, ReturnPActivityRepository>();
             builder.Services.AddScoped<IReturnPActivityService, ReturnPActivityService>();
             builder.Services.AddScoped<IReturnPAreaRepository, ReturnPAreaRepository>();
@@ -66,14 +72,12 @@ namespace SME_API_Budget
 
             builder.Services.AddScoped<IReturnProjectRepository, ReturnProjectRepository>();
             builder.Services.AddScoped<IReturnProjectService, ReturnProjectService>();
+         
             builder.Services.AddScoped<IRecP301Service, RecP301Service>();
 
-            //service call api
-            builder.Services.AddScoped<ICallAPIService, CallAPIService>();
-            builder.Services.AddHttpClient<CallAPIService>();
-            builder.Services.AddSingleton<CallAPIService>();
+            
 
-           
+
             // Cron job
             // Add Quartz.NET services
             builder.Services.AddQuartz(q =>

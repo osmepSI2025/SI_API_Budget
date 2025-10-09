@@ -26,7 +26,7 @@ public class APIResponseDataReturnPPayModels
     public string? DATA_P1 { get; set; } // ✅ String
 
     [JsonPropertyName("DATA_P2")]
-    public int DATA_P2 { get; set; } // ✅ Integer
+    public decimal? DATA_P2 { get; set; } // ✅ Integer
 }
 public class ApiResponseReturnPPayModels
 {

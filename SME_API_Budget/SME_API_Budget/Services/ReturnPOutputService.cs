@@ -11,14 +11,16 @@ namespace SME_API_Budget.Services
         private readonly IApiInformationRepository _repositoryApi;
         private readonly ICallAPIService _serviceApi;
         private readonly IReturnProjectService _returnProjectService;
+        private readonly ILogger<ReturnPOutputService> _logger;
 
         public ReturnPOutputService(IReturnPOutputRepository repository, IApiInformationRepository repositoryApi,
-            ICallAPIService serviceApi, IReturnProjectService returnProjectService)
+            ICallAPIService serviceApi, IReturnProjectService returnProjectService, ILogger<ReturnPOutputService> logger)
         {
             _repository = repository;
             _repositoryApi = repositoryApi;
             _serviceApi = serviceApi;
             _returnProjectService = returnProjectService;
+            _logger = logger;
         }
         public async Task<Dictionary<int, APIResponseDataReturnPOutputModels>> GetAllAsync(string year, string projectcode)
         {
@@ -62,7 +64,7 @@ namespace SME_API_Budget.Services
                     // return projects.ToDictionary(p => p.Value.KeyId ?? p.Key, p => p.Value);
                     return projects;
                 }
-
+                _logger.LogInformation($"start Return_P_output"+"!!param"+ year+ projectcode);
                 var resultApi = await _serviceApi.GetDataApiAsync_ReturnPOutput(apiParam, year, projectcode);
 
                 if (resultApi.Data == null || resultApi.Data.Count == 0)
@@ -99,7 +101,7 @@ namespace SME_API_Budget.Services
 
                 if (newProjects.Count > 0)
                     await _repository.AddRangeAsync(newProjects);
-
+                _logger.LogInformation($"start Return_P_output " + "!!Insert " + newProjects.Count);
                 // ✅ เรียกข้อมูลจาก DB หลัง Insert
                 projects = await _repository.GetAllAsync(year, projectcode);
                 // return projects.ToDictionary(p => p.Value.KeyId ?? p.Key, p => p.Value);
@@ -133,7 +135,7 @@ namespace SME_API_Budget.Services
 
             var currentYear = buddhistCalendar.GetYear(DateTime.Now);
 
-            var years = new[] { currentYear - 1, currentYear + 1 };
+            var years = new[] { currentYear, currentYear + 1 };
 
             foreach (var year in years)
             {

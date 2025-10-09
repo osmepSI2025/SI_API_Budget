@@ -9,7 +9,7 @@ public partial class ReturnPPay
 
     public string? DataP1 { get; set; }
 
-    public string? DataP2 { get; set; }
+    public decimal? DataP2 { get; set; }
 
     public string? YearBdg { get; set; }
 

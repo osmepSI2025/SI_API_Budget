@@ -128,7 +128,7 @@ namespace SME_API_Budget.Services
 
             var currentYear = buddhistCalendar.GetYear(DateTime.Now);
 
-            var years = new[] { currentYear - 1, currentYear + 1 }; ;
+            var years = new[] { currentYear, currentYear + 1 }; ;
 
             foreach (var year in years)
             {

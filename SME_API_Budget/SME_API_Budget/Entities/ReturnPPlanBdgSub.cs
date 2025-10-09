@@ -13,6 +13,8 @@ public partial class ReturnPPlanBdgSub
 
     public string DataPS1 { get; set; } = null!;
 
+    public decimal? DataPS3 { get; set; }
+
     public decimal DataPS2 { get; set; }
 
     public string RefCode2 { get; set; } = null!;

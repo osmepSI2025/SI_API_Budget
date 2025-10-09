@@ -15,7 +15,7 @@ namespace SME_API_Budget.Controllers
             _service = service;
         }
 
-        [HttpGet("Return_P_Risk/{year}")]
+      
         [HttpGet("Return_P_Risk/{year}/{projectCode}")]
         public async Task<IActionResult> GetAll(string year, string? projectCode = null)
         {
@@ -23,5 +23,12 @@ namespace SME_API_Budget.Controllers
             return Ok(result);
         }
 
+        [HttpGet("Batch_Return_P_Risk")]
+       
+        public async Task<IActionResult> Batch_Return_P_Risk()
+        {
+            var result = await _service.BatchReturn_Risk();
+            return Ok(result);
+        }
     }
 }

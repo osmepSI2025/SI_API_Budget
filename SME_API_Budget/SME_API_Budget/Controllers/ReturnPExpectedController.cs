@@ -14,7 +14,7 @@ namespace SME_API_Budget.Controllers
         {
             _service = service;
         }
-        [HttpGet("Return_P_Expected/{year}")]
+       
         [HttpGet("Return_P_Expected/{year}/{projectCode}")]
         public async Task<IActionResult> GetAll(string year, string? projectCode = null)
         {
@@ -22,7 +22,13 @@ namespace SME_API_Budget.Controllers
             return Ok(result);
         }
 
+        [HttpGet("Batch_Return_P_Expected")]
+     
+        public async Task<IActionResult> Batch_Return_P_Expected()
+        {
+            var result = await _service.BatchReturn_Expected();
+            return Ok(result);
+        }
 
-      
     }
 }

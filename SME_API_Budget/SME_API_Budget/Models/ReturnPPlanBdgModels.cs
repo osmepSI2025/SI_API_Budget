@@ -88,6 +88,7 @@ public class PlanSubDataModel
 {
     public string DATA_P_S1 { get; set; } = string.Empty;
     public string DATA_P_S2 { get; set; } = string.Empty;
+    public string DATA_P_S3 { get; set; } = string.Empty;
     public string REF_CODE_2 { get; set; } = string.Empty;
     public string BDG_TYPE { get; set; } = string.Empty;
 }

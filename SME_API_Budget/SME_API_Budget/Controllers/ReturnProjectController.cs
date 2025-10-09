@@ -73,18 +73,21 @@ namespace SME_API_Budget.Controllers
                 {
                     currentYearTh = currentYear + 543;
                 }
-                else 
+                else
                 {
                     currentYearTh = currentYear;
                 }
-                int currentYearThto = currentYearTh+1;
-                  
+                int currentYearThto = currentYearTh + 1;
 
-                // วนลูปตั้งแต่ currentYearTh ถึง currentYearTh+1
-                for (int year = currentYearTh; year <= currentYearThto; year++)
-                {
-                    var projects = await _service.BatchAllAsync(year.ToString());
-                }
+
+                //// วนลูปตั้งแต่ currentYearTh ถึง currentYearTh+1
+                //for (int year = currentYearTh; year <= currentYearThto; year++)
+                //{
+                //    var projects = await _service.BatchAllAsync(year.ToString());
+                //}
+
+
+                var projects = await _service.BatchAllAsync("2569");
                 return Ok("1");
 
             }

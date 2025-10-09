@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using SME_API_Budget.Entities;
+﻿using SME_API_Budget.Entities;
 using SME_API_Budget.Models;
 using SME_API_Budget.Repository;
 using System.Globalization;
+using System.Text.Json;
 
 namespace SME_API_Budget.Services
 {
@@ -17,7 +16,7 @@ namespace SME_API_Budget.Services
         public ReturnPPayService(IReturnPPayRepository repository, ICallAPIService serviceApi,
             IApiInformationRepository repositoryApi, IReturnProjectService returnProjectService)
         {
-            _repository = repository; 
+            _repository = repository;
             _serviceApi = serviceApi;
             _repositoryApi = repositoryApi;
             _returnProjectService = returnProjectService;
@@ -31,11 +30,12 @@ namespace SME_API_Budget.Services
             {
                 var projects = await _repository.GetAllAsync(year, projectcode);
 
-                if (projects != null)
-                {
-                    return projects;
-                  
-                }
+                //if (projects != null)
+                //{
+                //    return projects;
+
+                //}
+
 
                 var LApi = await _repositoryApi.GetAllAsync(new MapiInformationModels { ServiceNameCode = "Return_P_Pay" });
                 if (!LApi.Any())
@@ -67,9 +67,16 @@ namespace SME_API_Budget.Services
                 {
                     return xapiResponseReturnAreaModels;
                 }
-
-                var resultApi = await _serviceApi.GetDataApiAsync_ReturnPPay(apiParam, year, projectcode);
-
+                var resultApi = new ApiResponseReturnPPayModels();
+                try
+                {
+                     resultApi = await _serviceApi.GetDataApiAsync_ReturnPPay(apiParam, year, projectcode);
+                    await Task.Delay(1000);
+                }
+                catch (JsonException ex)
+                {
+                    Console.WriteLine("JSON Parse Error: " + ex.Message);
+                }
 
                 if (resultApi.Data == null)
                 {
@@ -77,24 +84,58 @@ namespace SME_API_Budget.Services
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(resultApi.Data.DATA_P1) && !string.IsNullOrEmpty(resultApi.Data.DATA_P2.ToString()))
+                    //if (!string.IsNullOrEmpty(resultApi.Data.DATA_P1) && !string.IsNullOrEmpty(resultApi.Data.DATA_P2.ToString()))
+                    //{
+
+                    //    List<ReturnPPay> newProjects = new();
+                    //    newProjects.Add(new ReturnPPay
+                    //    {
+                    //        DataP1 = resultApi.Data.DATA_P1.ToString(),
+                    //        DataP2 = resultApi.Data.DATA_P2??0,
+                    //        CreateDate = DateTime.Now,
+                    //        UpdateDate = DateTime.Now,
+                    //        YearBdg = year,
+                    //        ProjectCode = projectcode,
+                    //    });
+
+                    //    projects = await _repository.GetAllAsync(year, projectcode);
+                    //    if (projects != null)
+                    //    {
+                    //        await _repository.UpdateAsync(newProjects);
+                    //    }
+                    //    if (newProjects.Count > 0)
+                    //        await _repository.AddRangeAsync(newProjects);
+
+
+                    //}
+                    if (!string.IsNullOrEmpty(resultApi.Data.DATA_P1) && resultApi.Data.DATA_P2.HasValue)
                     {
-                        List<ReturnPPay> newProjects = new();
-                        newProjects.Add(new ReturnPPay
+                        List<ReturnPPay> newProjects = new()
+    {
+        new ReturnPPay
+        {
+            DataP1 = resultApi.Data.DATA_P1,
+            DataP2 = resultApi.Data.DATA_P2 ?? 0,
+            CreateDate = DateTime.Now,
+            UpdateDate = DateTime.Now,
+            YearBdg = year,
+            ProjectCode = projectcode,
+        }
+    };
+
+                        // Check if there is existing data to update
+                        var existingProjects = await _repository.GetPayCheckAllAsync(year, projectcode);
+                        if (existingProjects != null && !string.IsNullOrEmpty(existingProjects.ProjectCode))
                         {
-                            DataP1 = resultApi.Data.DATA_P1.ToString(),
-                            DataP2 = resultApi.Data.DATA_P2.ToString(),
-                            CreateDate = DateTime.Now,
-                            UpdateDate = DateTime.Now,
-                            YearBdg = year,
-                            ProjectCode = projectcode,
-                        });
-
-
-                        if (newProjects.Count > 0)
+                            newProjects.First().Id = existingProjects.Id; // Set the ID for update
+                            // Update existing
+                            await _repository.UpdateAsync(newProjects.First());
+                        }
+                        else
+                        {
+                            // Add new
                             await _repository.AddRangeAsync(newProjects);
-
-
+                        }
                     }
 
                 }
@@ -109,7 +150,7 @@ namespace SME_API_Budget.Services
             {
                 Console.WriteLine("Error: " + ex.Message);
                 return xapiResponseReturnAreaModels;
-                
+
             }
         }
         public async Task<ReturnPPay> GetByIdAsync(int id)
@@ -131,7 +172,7 @@ namespace SME_API_Budget.Services
 
             var currentYear = buddhistCalendar.GetYear(DateTime.Now);
 
-            var years = new[] { currentYear - 1, currentYear + 1 };
+            var years = new[] { currentYear - 1, currentYear, currentYear + 1 };
 
 
             foreach (var year in years)
@@ -142,12 +183,15 @@ namespace SME_API_Budget.Services
                 {
                     if (item.Value.DATA_P11.Length > 5)
                     {
+                        await Task.Delay(2000);
                         var result = await GetAllAsync(year.ToString(), item.Value.DATA_P11);
                     }
                 }
 
 
             }
+
+            // var result = await GetAllAsync("2569", "69-02-030-0");
             return 1; // Placeholder for delete operation, implement as needed
         }
     }

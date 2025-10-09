@@ -328,6 +328,9 @@ public partial class SMEBudgetDBContext : DbContext
             entity.Property(e => e.DataPS2)
                 .HasColumnType("decimal(18, 2)")
                 .HasColumnName("DATA_P_S2");
+            entity.Property(e => e.DataPS3)
+             .HasColumnType("decimal(18, 2)")
+             .HasColumnName("DATA_P_S3");
             entity.Property(e => e.RefCode).HasColumnName("REF_CODE");
             entity.Property(e => e.RefCode2)
                 .HasMaxLength(50)
@@ -411,6 +414,7 @@ public partial class SMEBudgetDBContext : DbContext
             entity.Property(e => e.YearBdg)
                 .HasMaxLength(50)
                 .HasColumnName("year_bdg");
+            entity.Property(e => e.DataP14).HasColumnName("DATA_P14");
         });
 
         OnModelCreatingPartial(modelBuilder);

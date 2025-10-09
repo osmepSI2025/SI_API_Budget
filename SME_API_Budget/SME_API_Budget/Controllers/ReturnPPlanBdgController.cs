@@ -15,7 +15,7 @@ namespace SME_API_Budget.Controllers
             _service = service;
         }
 
-        [HttpGet("Return_P_Plan_Bdg/{year}")]
+
         [HttpGet("Return_P_Plan_Bdg/{year}/{projectCode}")]
         public async Task<IActionResult> GetAll(string year, string? projectCode = null)
         {
@@ -37,13 +37,33 @@ namespace SME_API_Budget.Controllers
                      // เพิ่มข้อมูล SubData ลงใน Dictionary
                      foreach (var sub in p.ReturnPPlanBdgSubs)
                      {
+
+                         //              dict[sub.SubCode] = new Dictionary<string, string>
+                         //              {
+                         //                  ["DATA_P_S1"] = sub.DataPS1 ?? "",
+                         //                  ["REF_CODE_2"] = sub.RefCode2 ?? "",
+                         //                  ["BDG_TYPE"] = sub.BdgType ?? "",
+                         //                  // Conditional assignment for DATA_P_S2 or DATA_P_S3
+                         //                  [sub.BdgType == "เงินในงบประมาณ" ? "DATA_P_S2" : "DATA_P_S3"] = sub.BdgType == "เงินในงบประมาณ"
+                         //? Convert.ToDecimal(sub.DataPS2).ToString()
+                         //: Convert.ToDecimal(sub.DataPS3).ToString()
+                         //              };
+
                          dict[sub.SubCode] = new Dictionary<string, string>
                          {
                              ["DATA_P_S1"] = sub.DataPS1 ?? "",
-                             ["DATA_P_S3"] = Convert.ToDecimal(sub.DataPS2).ToString(),
                              ["REF_CODE_2"] = sub.RefCode2 ?? "",
-                             ["BDG_TYPE"] = sub.BdgType ?? "",
+                             ["BDG_TYPE"] = sub.BdgType ?? ""
                          };
+
+                         if (sub.BdgType == "เงินในงบประมาณ")
+                         {
+                             ((Dictionary<string, string>)dict[sub.SubCode])["DATA_P_S2"] = Convert.ToDecimal(sub.DataPS2).ToString();
+                         }
+                         else
+                         {
+                             ((Dictionary<string, string>)dict[sub.SubCode])["DATA_P_S3"] = Convert.ToDecimal(sub.DataPS3).ToString();
+                         }
                      }
 
                      return dict;
@@ -54,6 +74,14 @@ namespace SME_API_Budget.Controllers
         }
 
 
-      
+        [HttpGet("Batch_Return_P_Plan_Bdg")]
+     
+        public async Task<IActionResult> Batch_Return_P_Plan_Bdg()
+        {
+            var result = await _service.BatchReturn_PlanBdg();
+
+            return Ok("1");
+            // return Ok(result);
+        }
     }
 }

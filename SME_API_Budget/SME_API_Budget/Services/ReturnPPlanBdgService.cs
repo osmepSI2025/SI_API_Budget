@@ -100,7 +100,8 @@ namespace SME_API_Budget.Services
                             RefCode = keyId,
                             SubCode = subItem.Key, // ใช้ Key เป็น SubCode
                             DataPS1 = subItem.Value.DATA_P_S1,
-                            DataPS2 = Convert.ToDecimal(subItem.Value.DATA_P_S2),
+                            DataPS2 = decimal.TryParse(subItem.Value.DATA_P_S2, out var ps2) ? ps2 : 0,
+                            DataPS3 = decimal.TryParse(subItem.Value.DATA_P_S3, out var ps3) ? ps3 : 0,
                             BdgType = subItem.Value.BDG_TYPE,
                             RefCode2 = subItem.Value.REF_CODE_2,
                             CreateDate = DateTime.Now,
@@ -148,7 +149,7 @@ namespace SME_API_Budget.Services
 
             var currentYear = buddhistCalendar.GetYear(DateTime.Now);
 
-            var years = new[] { currentYear - 1, currentYear + 1 };
+            var years = new[] {  currentYear, currentYear + 1 };
 
 
             foreach (var year in years)

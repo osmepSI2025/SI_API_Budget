@@ -86,21 +86,43 @@ namespace SME_API_Budget.Services
 
                 foreach (var item in resultApi.Data)
                 {
-                    if (!int.TryParse(item.Key, out int keyId) || existingKeyIds.Contains(keyId))
+                    if (!int.TryParse(item.Key, out int keyId))
                         continue;
-                    newProjects.Add(new ReturnPActivity
+
+                    if (existingKeyIds.Contains(keyId))
                     {
-                        RefCode = keyId,
-                        DataP1 = item.Value.DATA_P1,
-                        DataP2 = item.Value.DATA_P2,
-                        DataP3 = Convert.ToDecimal(item.Value.DATA_P3),
-                        DataP4 = Convert.ToDecimal(item.Value.DATA_P4),
-                        DataP5 = item.Value.DATA_P5,
-                        CreateDate = DateTime.Now,
-                        UpdateDate = DateTime.Now,
-                        YearBdg = year,
-                        ProjectCode = projectcode
-                    });
+                        // Update existing activity
+                        var existingActivity = await _repository.GetByRefcodeAsync(keyId);
+                        if (existingActivity != null)
+                        {
+                            existingActivity.DataP1 = item.Value.DATA_P1;
+                            existingActivity.DataP2 = item.Value.DATA_P2;
+                            existingActivity.DataP3 = Convert.ToDecimal(item.Value.DATA_P3);
+                            existingActivity.DataP4 = Convert.ToDecimal(item.Value.DATA_P4);
+                            existingActivity.DataP5 = item.Value.DATA_P5;
+                            existingActivity.UpdateDate = DateTime.Now;
+                            existingActivity.YearBdg = year;
+                            existingActivity.ProjectCode = projectcode;
+                            await _repository.UpdateAsync(existingActivity);
+                        }
+                    }
+                    else
+                    {
+                        // Add new activity
+                        newProjects.Add(new ReturnPActivity
+                        {
+                            RefCode = keyId,
+                            DataP1 = item.Value.DATA_P1,
+                            DataP2 = item.Value.DATA_P2,
+                            DataP3 = Convert.ToDecimal(item.Value.DATA_P3),
+                            DataP4 = Convert.ToDecimal(item.Value.DATA_P4),
+                            DataP5 = item.Value.DATA_P5,
+                            CreateDate = DateTime.Now,
+                            UpdateDate = DateTime.Now,
+                            YearBdg = year,
+                            ProjectCode = projectcode
+                        });
+                    }
 
                     // 🔹 อ่านค่า SubData ที่เป็น Dictionary
                     foreach (var subItem in item.Value.SubData)
@@ -123,9 +145,12 @@ namespace SME_API_Budget.Services
                 if (newProjectsSub.Count > 0)
                     await _repository.AddRangeAsyncSub(newProjectsSub);
 
+               
                 // ✅ เรียกข้อมูลจาก DB หลัง Insert
                 projects = await _repository.GetAllAsync(year, projectcode);
                 return projects.ToList();
+
+
             }
             catch (Exception ex)
             {
@@ -171,7 +196,7 @@ namespace SME_API_Budget.Services
 
             var currentYear = buddhistCalendar.GetYear(DateTime.Now);
 
-            var years = new[] { currentYear - 1, currentYear + 1 };
+            var years = new[] { currentYear , currentYear + 1 };
 
             foreach (var year in years)
             {

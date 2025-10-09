@@ -44,6 +44,7 @@ namespace SME_API_Budget.Repository
                     DATA_P11 = p.DataP11,
                     DATA_P12 = p.DataP12.ToString()??null,
                     DATA_P13 = p.DataP13.ToString() ?? null,
+                    DATA_P14 = p.DataP14 ?? null,
                 }
             );
 
@@ -89,6 +90,10 @@ namespace SME_API_Budget.Repository
         {
             try
             {
+                if (entity.KeyId == 52) 
+                {
+                    string xxx = "55555";
+                }
                 var existing = await _context.ReturnProjects
                     .FirstOrDefaultAsync(x => x.KeyId == entity.KeyId);
 
@@ -108,6 +113,7 @@ namespace SME_API_Budget.Repository
                     existing.DataP11 = entity.DataP11;
                     existing.DataP12 = entity.DataP12;
                     existing.DataP13 = entity.DataP13;
+                    existing.DataP14 = entity.DataP14;
                     existing.YearBdg = entity.YearBdg;
                     existing.ProjectCode = entity.ProjectCode;
                     existing.UpdateDate = entity.UpdateDate;
